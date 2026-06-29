@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>KCIL Deep Scraper — Full Product Intelligence</title>
+  <meta name="description" content="Deep scraper for kcilglobal.com — extracts full product details, applications, properties, specifications and more."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="bg-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+      </div>
+      <div class="logo-text">
+        <span class="logo-title">KCIL Deep Scraper</span>
+        <span class="logo-sub">Full Product Intelligence</span>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="stat-chip" id="statProducts"><span class="chip-num" id="numProducts">0</span><span class="chip-lbl">Products</span></div>
+      <div class="stat-chip" id="statApps"><span class="chip-num" id="numApps">0</span><span class="chip-lbl">Applications</span></div>
+      <div class="stat-chip" id="statPages"><span class="chip-num" id="numPages">0</span><span class="chip-lbl">Pages</span></div>
+      <div class="status-badge"><span class="status-dot" id="statusDot"></span><span id="statusText">Ready</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <h3 class="sidebar-title">Target</h3>
+      <div class="url-display">
+        <div class="url-icon">🌐</div>
+        <div><span class="url-label">Chemical Manufacturer</span><span class="url-value">kcilglobal.com</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3 class="sidebar-title">Scrape Mode</h3>
+      <div class="mode-selector">
+        <label class="mode-option active" id="modeDeep" onclick="setMode('deep')">
+          <span class="mode-radio"></span>
+          <div><strong>🔬 Deep Crawl</strong><small>Visits every product page — full details, specs, applications</small></div>
+        </label>
+        <label class="mode-option" id="modeQuick" onclick="setMode('quick')">
+          <span class="mode-radio"></span>
+          <div><strong>⚡ Quick Scan</strong><small>Homepage only — fast overview, no sub-pages</small></div>
+        </label>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3 class="sidebar-title">Extract</h3>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="cb-details" checked/><span class="checkbox-custom"></span><span>🧪 Product Details</span></label>
+        <label class="checkbox-item"><input type="checkbox" id="cb-apps" checked/><span class="checkbox-custom"></span><span>⚗️ Applications</span></label>
+        <label class="checkbox-item"><input type="checkbox" id="cb-props" checked/><span class="checkbox-custom"></span><span>📐 Properties & Specs</span></label>
+        <label class="checkbox-item"><input type="checkbox" id="cb-msds" checked/><span class="checkbox-custom"></span><span>📄 MSDS / Documents</span></label>
+        <label class="checkbox-item"><input type="checkbox" id="cb-appsmatrix" checked/><span class="checkbox-custom"></span><span>📊 Applications Matrix</span></label>
+        <label class="checkbox-item"><input type="checkbox" id="cb-links" checked/><span class="checkbox-custom"></span><span>🔗 All Links</span></label>
+      </div>
+    </div>
+
+    <button class="btn-scrape" id="btnScrape" onclick="startScraping()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span id="btnText">Start Deep Scrape</span>
+    </button>
+
+    <div class="sidebar-section" style="margin-top:16px">
+      <h3 class="sidebar-title">Export Current Tab</h3>
+      <div class="export-group">
+        <button class="btn-export" id="btnJSON" onclick="exportData('json')" disabled>📄 JSON</button>
+        <button class="btn-export" id="btnCSV" onclick="exportData('csv')" disabled>📊 CSV</button>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3 class="sidebar-title">Progress</h3>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="pFill" style="width:0%"></div></div>
+        <span class="progress-label" id="pLabel">0%</span>
+      </div>
+      <div class="crawl-status" id="crawlStatus"></div>
+      <div class="log-box" id="logBox"><div class="log-entry log-info">⚡ Ready. Click Start Deep Scrape.</div></div>
+    </div>
+  </aside>
+
+  <section class="results-panel">
+    <div class="tab-bar">
+      <button class="tab active" data-tab="products" onclick="switchTab('products')">🧪 Products <span class="tab-badge" id="b-products">0</span></button>
+      <button class="tab" data-tab="applications" onclick="switchTab('applications')">⚗️ Applications <span class="tab-badge" id="b-applications">0</span></button>
+      <button class="tab" data-tab="appsmatrix" onclick="switchTab('appsmatrix')">📊 Apps Matrix <span class="tab-badge" id="b-appsmatrix">0</span></button>
+      <button class="tab" data-tab="properties" onclick="switchTab('properties')">📐 Properties <span class="tab-badge" id="b-properties">0</span></button>
+      <button class="tab" data-tab="documents" onclick="switchTab('documents')">📄 Documents <span class="tab-badge" id="b-documents">0</span></button>
+      <button class="tab" data-tab="links" onclick="switchTab('links')">🔗 Links <span class="tab-badge" id="b-links">0</span></button>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-wrap">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search results..." oninput="filterResults()"/>
+      </div>
+      <span class="result-count" id="resultCount">No data yet</span>
+    </div>
+
+    <!-- Products Tab -->
+    <div class="tab-content active" id="tab-products">
+      <div class="empty-state" id="empty-products"><div class="empty-icon">🧪</div><h3>Product details will appear here</h3><p>Run Deep Crawl to extract CAS numbers, molecular formulas, synonyms, and full details for all products</p></div>
+      <div id="grid-products" class="product-detail-grid"></div>
+    </div>
+
+    <!-- Applications Tab -->
+    <div class="tab-content" id="tab-applications">
+      <div class="empty-state" id="empty-applications"><div class="empty-icon">⚗️</div><h3>Product applications will appear here</h3><p>Deep crawl extracts the uses of each chemical from individual product pages</p></div>
+      <div id="list-applications" class="apps-list"></div>
+    </div>
+
+    <!-- Applications Matrix Tab -->
+    <div class="tab-content" id="tab-appsmatrix">
+      <div class="empty-state" id="empty-appsmatrix"><div class="empty-icon">📊</div><h3>Applications Matrix will appear here</h3><p>Scraped from kcilglobal.com/applications/ — shows which industries each KCIL product serves</p></div>
+      <div id="table-appsmatrix" class="matrix-wrap"></div>
+    </div>
+
+    <!-- Properties Tab -->
+    <div class="tab-content" id="tab-properties">
+      <div class="empty-state" id="empty-properties"><div class="empty-icon">📐</div><h3>Physical & chemical properties will appear here</h3><p>Appearance, boiling point, flash point, density, refractive index and more per product</p></div>
+      <div id="list-properties" class="props-list"></div>
+    </div>
+
+    <!-- Documents Tab -->
+    <div class="tab-content" id="tab-documents">
+      <div class="empty-state" id="empty-documents"><div class="empty-icon">📄</div><h3>Documents will appear here</h3><p>MSDS sheets, specification sheets, and other downloadable PDFs per product</p></div>
+      <div id="list-documents" class="docs-grid"></div>
+    </div>
+
+    <!-- Links Tab -->
+    <div class="tab-content" id="tab-links">
+      <div class="empty-state" id="empty-links"><div class="empty-icon">🔗</div><h3>Links will appear here</h3><p>All URLs discovered across all scraped pages</p></div>
+      <div id="list-links" class="links-list"></div>
+    </div>
+  </section>
+</main>
+
+<!-- Product Detail Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-content" id="modalContent"></div>
+  </div>
+</div>
+
+<script src="scraper.js"></script>
+</body>
+</html>
