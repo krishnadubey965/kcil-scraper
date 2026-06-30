@@ -1,4 +1,4 @@
-// KCIL Intelligence Suite v5 - scraper.js
+﻿// KCIL Intelligence Suite v5 - scraper.js
 // 29 products | AI Chat | Fixed parser (Applications != Synonyms)
 const PROXY='https://api.allorigins.win/get?url=';
 let mode='deep',isScraping=false,currentTab='ai';
@@ -1631,7 +1631,7 @@ function switchTab(t){
   document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('active',x.dataset.tab===t);});
   document.querySelectorAll('.tab-content').forEach(function(x){x.classList.toggle('active',x.id==='tab-'+t);});
   var fb=document.getElementById('filterBar');
-  if(fb)fb.style.display=(t==='ai')?'none':'flex';
+  if(fb)fb.style.display=(t==='ai'||t==='multisource')?'none':'flex';
   updateCount();
 }
 function updateCount(){var d=scrapedData[currentTab];var n=d?d.length:0;document.getElementById('resultCount').textContent=n>0?n+' item'+(n!==1?'s':''):'No data yet';}
@@ -2039,3 +2039,4 @@ window.addEventListener('DOMContentLoaded',function(){
   document.getElementById('numPages').textContent='0';
   var fb=document.getElementById('filterBar');if(fb)fb.style.display='none';
 });
+
