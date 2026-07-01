@@ -1882,13 +1882,8 @@ function smartLocalAnswer(query){
       d.keyRegions.forEach(function(r){html+='<span style="font-size:11px;padding:3px 8px;border-radius:12px;background:rgba(59,130,246,.1);color:#60a5fa">'+esc(r)+'</span>';});
       html+='</div>';
       html+='<div class="chat-section-title" style="margin-top:10px">Verify This Data — Certified Sources</div>';
-      html+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">';
-      html+='<a href="'+esc(d.googleLink)+'" target="_blank" style="font-size:11px;padding:5px 10px;border-radius:8px;background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.3);text-decoration:none;font-weight:700">Google Search (Always Works) →</a>';
-      html+='<a href="'+esc(d.gvrLink)+'" target="_blank" style="font-size:11px;padding:5px 10px;border-radius:8px;background:rgba(59,130,246,.12);color:#60a5fa;border:1px solid rgba(59,130,246,.3);text-decoration:none">Grand View Research (ISO 9001:2015) →</a>';
-      html+='<a href="'+esc(d.mmLink)+'" target="_blank" style="font-size:11px;padding:5px 10px;border-radius:8px;background:rgba(139,92,246,.12);color:#a78bfa;border:1px solid rgba(139,92,246,.3);text-decoration:none">MarketsandMarkets (ISO Certified) →</a>';
-      html+='<a href="'+esc(d.mordorLink)+'" target="_blank" style="font-size:11px;padding:5px 10px;border-radius:8px;background:rgba(6,182,212,.12);color:#22d3ee;border:1px solid rgba(6,182,212,.3);text-decoration:none">Mordor Intelligence (ISO 9001:2015) →</a>';
-      html+='<a href="'+esc(d.icicLink)+'" target="_blank" style="font-size:11px;padding:5px 10px;border-radius:8px;background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.3);text-decoration:none">ICIS Chemical Business (100+ yrs) →</a>';
-      html+='</div>';
+      var glink='https://www.google.com/search?q='+encodeURIComponent(mFound+' market size CAGR '+d.forecastPeriod+' '+d.source);
+      html+='<a href="'+glink+'" target="_blank" style="display:block;margin-top:6px;padding:10px 14px;border-radius:8px;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:#4ade80;font-weight:700;font-size:12px;text-decoration:none">Verify this data → Search Google for \"'+esc(mFound)+' market size CAGR '+esc(d.forecastPeriod)+'\"</a>';
       html+='<div style="font-size:10px;color:var(--dim);margin-top:8px;font-style:italic">Source: '+esc(d.source)+' ('+d.sourceYear+') | Data from publicly available executive summaries of certified research firms.</div>';
       return html;
     }

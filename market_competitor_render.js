@@ -35,95 +35,39 @@ function loadMarketData() {
   var name = sel ? sel.value : '';
   var panel = document.getElementById('mktDataPanel');
   if (!panel) return;
-  if (!name) { panel.innerHTML = '<div class="mkt-placeholder">Select a chemical above to see its market intelligence data.</div>'; return; }
+  if (!name) {
+    panel.innerHTML = '<div class="mkt-placeholder">Select a chemical above to view its market data.</div>';
+    return;
+  }
   var d = MARKET_DATA[name];
-  if (!d) { panel.innerHTML = '<div class="mkt-placeholder">No market data found for this chemical.</div>'; return; }
+  if (!d) {
+    panel.innerHTML = '<div class="mkt-placeholder">No market data for this chemical.</div>';
+    return;
+  }
   var cagr = d.cagr;
   var cagrClass = cagr >= 10 ? 'cagr-vhigh' : cagr >= 7 ? 'cagr-high' : cagr >= 5 ? 'cagr-med' : 'cagr-low';
   var cagrLabel = cagr >= 10 ? 'Very High Growth' : cagr >= 7 ? 'High Growth' : cagr >= 5 ? 'Moderate Growth' : 'Stable';
   var growth = ((d.marketSize2030 - d.marketSize2023) / d.marketSize2023 * 100).toFixed(0);
-  var sz2023 = d.marketSize2023 >= 1000 ? '$' + (d.marketSize2023/1000).toFixed(2) + ' Billion USD' : '$' + d.marketSize2023 + ' Million USD';
-  var sz2030 = d.marketSize2030 >= 1000 ? '$' + (d.marketSize2030/1000).toFixed(2) + ' Billion USD' : '$' + d.marketSize2030 + ' Million USD';
+  var sz23 = d.marketSize2023 >= 1000 ? '$' + (d.marketSize2023/1000).toFixed(2) + ' Billion' : '$' + d.marketSize2023 + ' Million';
+  var sz30 = d.marketSize2030 >= 1000 ? '$' + (d.marketSize2030/1000).toFixed(2) + ' Billion' : '$' + d.marketSize2030 + ' Million';
+  var yr2 = d.forecastPeriod.split('-')[1] || '2030';
+
+  var verifyUrl = 'https://www.google.com/search?q=' + encodeURIComponent(name + ' market size CAGR ' + d.forecastPeriod + ' ' + d.source);
 
   var html = '<div class="mkt-hero">';
   html += '<div class="mkt-hero-name">' + esc(name) + '</div>';
-  html += '<div class="mkt-hero-period">Forecast Period: ' + esc(d.forecastPeriod) + '</div>';
+  html += '<div class="mkt-hero-period">Forecast Period: ' + esc(d.forecastPeriod) + ' &nbsp;|&nbsp; Source: ' + esc(d.source) + ' (' + d.sourceYear + ')</div>';
   html += '<div class="mkt-kpi-row">';
-  html += '<div class="mkt-kpi"><div class="mkt-kpi-val">' + esc(sz2023) + '</div><div class="mkt-kpi-lbl">Current Market Size (2023)</div></div>';
-  html += '<div class="mkt-kpi"><div class="mkt-kpi-val">' + esc(sz2030) + '</div><div class="mkt-kpi-lbl">Projected Market (' + d.forecastPeriod.split('-')[1] + ')</div></div>';
-  html += '<div class="mkt-kpi cagr-kpi ' + cagrClass + '"><div class="mkt-kpi-val">' + d.cagr + '%</div><div class="mkt-kpi-lbl">CAGR — ' + cagrLabel + '</div></div>';
+  html += '<div class="mkt-kpi"><div class="mkt-kpi-val">' + esc(sz23) + '</div><div class="mkt-kpi-lbl">Market Size (2023)</div></div>';
+  html += '<div class="mkt-kpi"><div class="mkt-kpi-val">' + esc(sz30) + '</div><div class="mkt-kpi-lbl">Forecast (' + esc(yr2) + ')</div></div>';
+  html += '<div class="mkt-kpi cagr-kpi ' + cagrClass + '"><div class="mkt-kpi-val">' + d.cagr + '%</div><div class="mkt-kpi-lbl">CAGR &mdash; ' + esc(cagrLabel) + '</div></div>';
   html += '<div class="mkt-kpi"><div class="mkt-kpi-val">+' + growth + '%</div><div class="mkt-kpi-lbl">Total Growth</div></div>';
   html += '</div>';
-  html += '<div class="mkt-cagr-bar-wrap"><div class="mkt-cagr-bar-label">CAGR Meter (scale: 0% — 15%)</div>';
+  html += '<div class="mkt-cagr-bar-wrap"><div class="mkt-cagr-bar-label">CAGR (0% &mdash; 15%)</div>';
   html += '<div class="mkt-cagr-bar"><div class="mkt-cagr-fill ' + cagrClass + '" style="width:' + Math.min(100,(d.cagr/15*100)).toFixed(0) + '%"></div></div></div>';
+
+  html += '<a href="' + esc(verifyUrl) + '" target="_blank" class="mkt-verify-onebtn">Verify this data &rarr; Click here to search Google for "' + esc(name) + ' market size CAGR ' + esc(d.forecastPeriod) + '"</a>';
   html += '</div>';
-
-  // ---- WHERE DOES THIS DATA COME FROM? ----
-  html += '<div class="mkt-verify-box">';
-  html += '<div class="mkt-verify-title">Where Does This Data Come From?</div>';
-  html += '<div class="mkt-verify-sub">This data is sourced from publicly available market research summaries published by the certified firms below. Click any link to open and verify it yourself. The Google Search links always work — they show snippets directly from these certified sites.</div>';
-  html += '<div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:10px 14px;font-size:11px;color:#fbbf24;margin-bottom:14px">';
-  html += '<strong>Data Origin:</strong> ' + esc(d.source) + ' — Published ' + d.sourceYear + ' | Forecast period: ' + esc(d.forecastPeriod);
-  html += '</div>';
-  html += '<div class="mkt-verify-links">';
-
-  // --- GOOGLE SEARCH (ALWAYS WORKS) ---
-  html += '<div class="mkt-verify-card" style="border-color:rgba(74,222,128,.4);background:rgba(74,222,128,.05)">';
-  html += '<div class="mkt-verify-firm" style="color:#4ade80">✅ Google Search — Instant Verification (Always Works)</div>';
-  html += '<div class="mkt-verify-cert">Opens Google search showing market size and CAGR data from all certified sites below</div>';
-  html += '<div class="mkt-verify-url">' + esc(d.googleLink) + '</div>';
-  html += '<a href="' + esc(d.googleLink) + '" target="_blank" class="mkt-verify-btn" style="background:rgba(74,222,128,.15);color:#4ade80;border-color:rgba(74,222,128,.4);font-size:12px;font-weight:700">🔍 Search Google for "' + esc(name) + ' market size CAGR 2024"</a>';
-  html += '</div>';
-
-  // --- GVR ---
-  html += '<div class="mkt-verify-card" style="border-color:rgba(59,130,246,.35)">';
-  html += '<div class="mkt-verify-firm" style="color:#60a5fa">Grand View Research (ISO 9001:2015 Certified)</div>';
-  html += '<div class="mkt-verify-cert">Free executive summaries showing market size and CAGR on their website</div>';
-  html += '<div class="mkt-verify-url">' + esc(d.gvrLink) + '</div>';
-  html += '<div style="display:flex;gap:8px;flex-wrap:wrap">';
-  html += '<a href="' + esc(d.gvrLink) + '" target="_blank" class="mkt-verify-btn" style="background:rgba(59,130,246,.15);color:#60a5fa;border-color:rgba(59,130,246,.3)">Open grandviewresearch.com →</a>';
-  html += '<a href="' + esc(d.googleGVR) + '" target="_blank" class="mkt-verify-btn" style="background:rgba(59,130,246,.08);color:#93c5fd;border-color:rgba(59,130,246,.2)">Search Google → grandviewresearch.com</a>';
-  html += '</div></div>';
-
-  // --- MORDOR ---
-  html += '<div class="mkt-verify-card" style="border-color:rgba(6,182,212,.35)">';
-  html += '<div class="mkt-verify-firm" style="color:#22d3ee">Mordor Intelligence (ISO 9001:2015 Certified)</div>';
-  html += '<div class="mkt-verify-cert">17,000+ market reports published. Free overview pages available.</div>';
-  html += '<div class="mkt-verify-url">' + esc(d.mordorLink) + '</div>';
-  html += '<div style="display:flex;gap:8px;flex-wrap:wrap">';
-  html += '<a href="' + esc(d.mordorLink) + '" target="_blank" class="mkt-verify-btn" style="background:rgba(6,182,212,.15);color:#22d3ee;border-color:rgba(6,182,212,.3)">Open mordorintelligence.com →</a>';
-  html += '<a href="' + esc(d.googleMordor) + '" target="_blank" class="mkt-verify-btn" style="background:rgba(6,182,212,.08);color:#67e8f9;border-color:rgba(6,182,212,.2)">Search Google → mordorintelligence.com</a>';
-  html += '</div></div>';
-
-  // --- M&M ---
-  html += '<div class="mkt-verify-card" style="border-color:rgba(139,92,246,.35)">';
-  html += '<div class="mkt-verify-firm" style="color:#a78bfa">MarketsandMarkets (ISO Certified Research)</div>';
-  html += '<div class="mkt-verify-cert">Trusted by 3,800+ global companies. Use their search to find this chemical.</div>';
-  html += '<div class="mkt-verify-url">' + esc(d.mmLink) + '</div>';
-  html += '<a href="' + esc(d.mmLink) + '" target="_blank" class="mkt-verify-btn" style="background:rgba(139,92,246,.15);color:#a78bfa;border-color:rgba(139,92,246,.3)">Search on marketsandmarkets.com →</a>';
-  html += '</div>';
-
-  // --- ICIS ---
-  html += '<div class="mkt-verify-card" style="border-color:rgba(245,158,11,.35)">';
-  html += '<div class="mkt-verify-firm" style="color:#fbbf24">ICIS Chemical Business (100+ Years, Industry Gold Standard)</div>';
-  html += '<div class="mkt-verify-cert">The most trusted source in the global chemical industry for pricing and market data.</div>';
-  html += '<div class="mkt-verify-url">' + esc(d.icicLink) + '</div>';
-  html += '<a href="' + esc(d.icicLink) + '" target="_blank" class="mkt-verify-btn" style="background:rgba(245,158,11,.15);color:#fbbf24;border-color:rgba(245,158,11,.3)">Search news on icis.com →</a>';
-  html += '</div>';
-
-  // --- STATISTA ---
-  html += '<div class="mkt-verify-card" style="border-color:rgba(239,68,68,.35)">';
-  html += '<div class="mkt-verify-firm" style="color:#f87171">Statista (Certified Data Platform)</div>';
-  html += '<div class="mkt-verify-cert">1,000,000+ statistics. Used by 23,000+ companies. Cites original research firms.</div>';
-  html += '<div class="mkt-verify-url">' + esc(d.statiLink) + '</div>';
-  html += '<a href="' + esc(d.statiLink) + '" target="_blank" class="mkt-verify-btn" style="background:rgba(239,68,68,.15);color:#f87171;border-color:rgba(239,68,68,.3)">Search on statista.com →</a>';
-  html += '</div>';
-
-  html += '</div>'; // mkt-verify-links
-  html += '<div class="mkt-verify-note" style="background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.2);border-radius:8px;padding:10px 12px;font-size:11px;color:#a78bfa;margin-top:12px">';
-  html += '<strong>Important note for senior verification:</strong> These research firms publish free "overview" or "executive summary" pages which show the market size and CAGR headline numbers for free. The full detailed report (100+ pages) requires a paid subscription. The Google Search links above always work and show the free summary snippets from these certified sites.';
-  html += '</div>';
-  html += '</div>'; // mkt-verify-box
 
   html += '<div class="mkt-section"><div class="mkt-section-title">Market Outlook</div><div class="mkt-outlook">' + esc(d.outlook) + '</div></div>';
   html += '<div class="mkt-section"><div class="mkt-section-title">Key Growth Drivers</div><div class="mkt-drivers">';
