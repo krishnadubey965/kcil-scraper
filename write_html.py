@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+﻿import os
+BASE = r'c:\Users\Krish\.gemini\antigravity\brain\29575ca1-6451-41bf-9741-1aeaeeba93b5\artifacts\Kcil Scrapper'
+HTML = '''<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -41,11 +43,11 @@
     <div class="sidebar-section">
       <h3 class="sidebar-title">Scrape Mode</h3>
       <div class="mode-selector">
-        <label class="mode-option active" id="modeDeep" onclick="setMode('deep')">
+        <label class="mode-option active" id="modeDeep" onclick="setMode(\'deep\')">
           <span class="mode-radio"></span>
           <div><strong>&#128300; Deep Crawl</strong><small>Visits every product page live</small></div>
         </label>
-        <label class="mode-option" id="modeQuick" onclick="setMode('quick')">
+        <label class="mode-option" id="modeQuick" onclick="setMode(\'quick\')">
           <span class="mode-radio"></span>
           <div><strong>&#9889; Quick Scan</strong><small>Instant load from built-in dataset</small></div>
         </label>
@@ -67,8 +69,8 @@
     <div class="sidebar-section">
       <h3 class="sidebar-title">Export Current Tab</h3>
       <div class="export-group">
-        <button class="btn-export" id="btnJSON" onclick="exportData('json')">&#128196; JSON</button>
-        <button class="btn-export" id="btnCSV" onclick="exportData('csv')">&#128202; CSV</button>
+        <button class="btn-export" id="btnJSON" onclick="exportData(\'json\')">&#128196; JSON</button>
+        <button class="btn-export" id="btnCSV" onclick="exportData(\'csv\')">&#128202; CSV</button>
       </div>
     </div>
     <div class="sidebar-section">
@@ -100,15 +102,15 @@
   </aside>
   <section class="results-panel">
     <div class="tab-bar">
-      <button class="tab active" data-tab="ai" onclick="switchTab('ai')">&#129504; AI Chat</button>
-      <button class="tab" data-tab="multisource" onclick="switchTab('multisource')">&#128269; Multi-Source</button>
-      <button class="tab" data-tab="market" onclick="switchTab('market')">&#128200; Market Intel</button>
-      <button class="tab" data-tab="competitors" onclick="switchTab('competitors')">&#127981; Competitors</button>
-      <button class="tab" data-tab="products" onclick="switchTab('products')">&#129514; Products <span class="tab-badge" id="b-products">0</span></button>
-      <button class="tab" data-tab="applications" onclick="switchTab('applications')">&#9879; Applications <span class="tab-badge" id="b-applications">0</span></button>
-      <button class="tab" data-tab="appsmatrix" onclick="switchTab('appsmatrix')">&#128202; Apps Matrix <span class="tab-badge" id="b-appsmatrix">0</span></button>
-      <button class="tab" data-tab="properties" onclick="switchTab('properties')">&#128208; Properties <span class="tab-badge" id="b-properties">0</span></button>
-      <button class="tab" data-tab="documents" onclick="switchTab('documents')">&#128196; Documents <span class="tab-badge" id="b-documents">0</span></button>
+      <button class="tab active" data-tab="ai" onclick="switchTab(\'ai\')">&#129504; AI Chat</button>
+      <button class="tab" data-tab="multisource" onclick="switchTab(\'multisource\')">&#128269; Multi-Source</button>
+      <button class="tab" data-tab="market" onclick="switchTab(\'market\')">&#128200; Market Intel</button>
+      <button class="tab" data-tab="competitors" onclick="switchTab(\'competitors\')">&#127981; Competitors</button>
+      <button class="tab" data-tab="products" onclick="switchTab(\'products\')">&#129514; Products <span class="tab-badge" id="b-products">0</span></button>
+      <button class="tab" data-tab="applications" onclick="switchTab(\'applications\')">&#9879; Applications <span class="tab-badge" id="b-applications">0</span></button>
+      <button class="tab" data-tab="appsmatrix" onclick="switchTab(\'appsmatrix\')">&#128202; Apps Matrix <span class="tab-badge" id="b-appsmatrix">0</span></button>
+      <button class="tab" data-tab="properties" onclick="switchTab(\'properties\')">&#128208; Properties <span class="tab-badge" id="b-properties">0</span></button>
+      <button class="tab" data-tab="documents" onclick="switchTab(\'documents\')">&#128196; Documents <span class="tab-badge" id="b-documents">0</span></button>
     </div>
     <div class="filter-bar" id="filterBar" style="display:none">
       <div class="search-wrap">
@@ -167,12 +169,12 @@
           <button class="ms-btn-search" id="msBtnSearch" onclick="runMultiSearch()">Search All</button>
         </div>
         <div class="ms-quick-pills">
-          <span class="ms-pill" onclick="quickMultiSearch('Acetonitrile')">Acetonitrile</span>
-          <span class="ms-pill" onclick="quickMultiSearch('Tetrahydrofuran')">THF</span>
-          <span class="ms-pill" onclick="quickMultiSearch('1,4-Dioxane')">1,4-Dioxane</span>
-          <span class="ms-pill" onclick="quickMultiSearch('N-Methylpyrrolidone')">NMP</span>
-          <span class="ms-pill" onclick="quickMultiSearch('Methylal')">Methylal</span>
-          <span class="ms-pill" onclick="quickMultiSearch('Phenylboronic acid')">Phenyl Boronic Acid</span>
+          <span class="ms-pill" onclick="quickMultiSearch(\'Acetonitrile\')">Acetonitrile</span>
+          <span class="ms-pill" onclick="quickMultiSearch(\'Tetrahydrofuran\')">THF</span>
+          <span class="ms-pill" onclick="quickMultiSearch(\'1,4-Dioxane\')">1,4-Dioxane</span>
+          <span class="ms-pill" onclick="quickMultiSearch(\'N-Methylpyrrolidone\')">NMP</span>
+          <span class="ms-pill" onclick="quickMultiSearch(\'Methylal\')">Methylal</span>
+          <span class="ms-pill" onclick="quickMultiSearch(\'Phenylboronic acid\')">Phenyl Boronic Acid</span>
         </div>
         <div class="ms-log" id="msLog">Click a quick pill or type a chemical name to fetch live data from 3 databases.</div>
         <div class="ms-results-grid">
@@ -259,4 +261,7 @@
 <script src="multi_search.js"></script>
 <script src="market_competitor_render.js"></script>
 </body>
-</html>
+</html>'''
+with open(os.path.join(BASE, 'index.html'), 'w', encoding='utf-8') as fh:
+    fh.write(HTML)
+print('index.html written:', os.path.getsize(os.path.join(BASE, 'index.html')), 'bytes')
