@@ -1832,38 +1832,161 @@ function addChatMsg(html,role){
 function smartLocalAnswer(query){
   var q=query.toLowerCase();
   var products=scrapedData.products.length?scrapedData.products:getFullDataset();
+
+  // ---- DETECT INTENT ----
+  var isMarket=/market|size|cagr|growth|forecast|revenue|billion|million|usd|demand|trend|future|current market|industry size/i.test(query);
+  var isComp=/competitor|competition|competing|rival|vs kcil|laxmi|balaji|basf|sigma|eastman|tci|mitsubishi|vinati|sd fine|finar|who compete/i.test(query);
+  var isApps=/application|use|used for|industry|sector|purpose|where is/i.test(query);
+  var isProps=/property|properties|boiling|flash|density|formula|cas|molecular|weight|refractive|appearance/i.test(query);
+  var isCompare=/compare|vs |versus|difference|better|which is/i.test(query);
+  var isAdv=/advantage|benefit|why use|feature/i.test(query);
+  var isList=/list all|show all|all products|how many|which products|all chemicals/i.test(query);
+
+  // ---- MARKET DATA ANSWER ----
+  if(isMarket && typeof MARKET_DATA !== 'undefined'){
+    // Try to match a specific chemical
+    var mkeys=Object.keys(MARKET_DATA);
+    var mFound=null;
+    // direct name match first
+    mkeys.forEach(function(k){
+      var kl=k.toLowerCase();
+      if(q.indexOf(kl)>=0 || kl.indexOf(q.replace(/market.*$/,'').trim())>=0) mFound=k;
+    });
+    // fallback: keyword match against product names in query
+    if(!mFound){
+      var pr2=products.filter(function(p){
+        var words=q.split(/\s+/).filter(function(w){return w.length>3;});
+        return words.some(function(w){return p.name.toLowerCase().indexOf(w)>=0;});
+      });
+      if(pr2.length>0) mFound=mkeys.find(function(k){return k.toLowerCase().indexOf(pr2[0].name.toLowerCase().split(' ')[0])>=0;});
+    }
+    if(mFound){
+      var d=MARKET_DATA[mFound];
+      var gr=((d.marketSize2030-d.marketSize2023)/d.marketSize2023*100).toFixed(0);
+      var cagrLabel=d.cagr>=10?'Very High Growth (>10%)':d.cagr>=7?'High Growth (7-10%)':d.cagr>=5?'Moderate Growth (5-7%)':'Stable Growth';
+      var html='<div class="chem-name">'+esc(mFound)+' — Market Intelligence</div>';
+      html+='<div class="chat-section-title">Market Size & Forecast</div>';
+      html+='<div class="chat-prop-grid">';
+      html+='<div class="chat-prop"><span class="chat-prop-key">Current Market (2023)</span><span class="chat-prop-val" style="color:#4ade80;font-size:15px;font-weight:700">$'+(d.marketSize2023>=1000?(d.marketSize2023/1000).toFixed(1)+' Billion':d.marketSize2023+' Million')+'</span></div>';
+      html+='<div class="chat-prop"><span class="chat-prop-key">Forecast '+d.forecastPeriod.split('-')[1]+'</span><span class="chat-prop-val" style="color:#60a5fa;font-size:15px;font-weight:700">$'+(d.marketSize2030>=1000?(d.marketSize2030/1000).toFixed(1)+' Billion':d.marketSize2030+' Million')+'</span></div>';
+      html+='<div class="chat-prop"><span class="chat-prop-key">CAGR ('+d.forecastPeriod+')</span><span class="chat-prop-val" style="color:#fbbf24;font-size:16px;font-weight:800">'+d.cagr+'%</span></div>';
+      html+='<div class="chat-prop"><span class="chat-prop-key">Total Growth</span><span class="chat-prop-val">+'+gr+'%</span></div>';
+      html+='<div class="chat-prop"><span class="chat-prop-key">Growth Status</span><span class="chat-prop-val">'+esc(cagrLabel)+'</span></div>';
+      html+='<div class="chat-prop"><span class="chat-prop-key">Forecast Period</span><span class="chat-prop-val">'+esc(d.forecastPeriod)+'</span></div>';
+      html+='</div>';
+      html+='<div class="chat-section-title">Market Outlook</div><div class="chat-app-item"><div class="chat-app-dot" style="background:#60a5fa"></div>'+esc(d.outlook)+'</div>';
+      html+='<div class="chat-section-title">Key Growth Drivers</div><div class="chat-app-list">';
+      d.keyDrivers.forEach(function(dr){html+='<div class="chat-app-item"><div class="chat-app-dot"></div>'+esc(dr)+'</div>';});
+      html+='</div>';
+      html+='<div class="chat-section-title">Key Regions</div><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:4px">';
+      d.keyRegions.forEach(function(r){html+='<span style="font-size:11px;padding:3px 8px;border-radius:12px;background:rgba(59,130,246,.1);color:#60a5fa">'+esc(r)+'</span>';});
+      html+='</div>';
+      html+='<div class="chat-section-title" style="margin-top:10px">Verify This Data — Certified Sources</div>';
+      html+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">';
+      html+='<a href="'+esc(d.gvrLink)+'" target="_blank" style="font-size:11px;padding:5px 10px;border-radius:8px;background:rgba(59,130,246,.12);color:#60a5fa;border:1px solid rgba(59,130,246,.3);text-decoration:none">Grand View Research (ISO 9001:2015) →</a>';
+      html+='<a href="'+esc(d.mmLink)+'" target="_blank" style="font-size:11px;padding:5px 10px;border-radius:8px;background:rgba(139,92,246,.12);color:#a78bfa;border:1px solid rgba(139,92,246,.3);text-decoration:none">MarketsandMarkets (ISO Certified) →</a>';
+      html+='<a href="'+esc(d.mordorLink)+'" target="_blank" style="font-size:11px;padding:5px 10px;border-radius:8px;background:rgba(6,182,212,.12);color:#22d3ee;border:1px solid rgba(6,182,212,.3);text-decoration:none">Mordor Intelligence (ISO 9001:2015) →</a>';
+      html+='<a href="'+esc(d.icicLink)+'" target="_blank" style="font-size:11px;padding:5px 10px;border-radius:8px;background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.3);text-decoration:none">ICIS Chemical Business (100+ yrs) →</a>';
+      html+='</div>';
+      html+='<div style="font-size:10px;color:var(--dim);margin-top:8px;font-style:italic">Source: '+esc(d.source)+' ('+d.sourceYear+') | Data from publicly available executive summaries of certified research firms.</div>';
+      return html;
+    }
+    // General market question — show top chemicals by CAGR
+    var html='<div class="chem-name">KCIL Chemical Market Overview</div>';
+    html+='<div class="chat-section-title">Highest Growth Chemicals (by CAGR)</div>';
+    var sorted=Object.keys(MARKET_DATA).map(function(k){return {name:k,d:MARKET_DATA[k]};}).sort(function(a,b){return b.d.cagr-a.d.cagr;}).slice(0,8);
+    html+='<div class="chat-prop-grid">';
+    sorted.forEach(function(item){
+      html+='<div class="chat-prop"><span class="chat-prop-key">'+esc(item.name.length>30?item.name.slice(0,30)+'...':item.name)+'</span><span class="chat-prop-val" style="color:'+(item.d.cagr>=10?'#4ade80':item.d.cagr>=7?'#fbbf24':'#60a5fa')+'">'+item.d.cagr+'% CAGR</span></div>';
+    });
+    html+='</div>';
+    html+='<div style="margin-top:10px;font-size:12px;color:var(--muted)">Ask about a specific chemical for full market size, CAGR, growth drivers and verified source links. Example: <em>"What is the market size of NMP?"</em></div>';
+    return html;
+  }
+
+  // ---- COMPETITOR DATA ANSWER ----
+  if(isComp && typeof COMPETITORS !== 'undefined'){
+    var compQ=q.replace(/competitor|competition|competing|rival|of kcil|to kcil/gi,'').trim();
+    // Try to find a specific competitor
+    var foundComp=null;
+    COMPETITORS.forEach(function(c){
+      if(q.indexOf(c.name.toLowerCase().split(' ')[0].toLowerCase())>=0 || q.indexOf(c.name.toLowerCase().split(' ')[1]&&c.name.toLowerCase().split(' ')[1])>=0)
+        foundComp=c;
+    });
+    if(foundComp){
+      var c=foundComp;
+      var threatClass=c.threatLevel.indexOf('HIGH')>=0&&c.threatLevel.indexOf('MEDIUM')<0?'#f87171':c.threatLevel.indexOf('MEDIUM')>=0?'#fbbf24':'#4ade80';
+      var html='<div class="chem-name">'+esc(c.name)+'</div>';
+      html+='<div class="chat-prop-grid">';
+      html+='<div class="chat-prop"><span class="chat-prop-key">Country</span><span class="chat-prop-val">'+esc(c.country)+'</span></div>';
+      html+='<div class="chat-prop"><span class="chat-prop-key">Type</span><span class="chat-prop-val">'+esc(c.type)+'</span></div>';
+      html+='<div class="chat-prop"><span class="chat-prop-key">Ticker</span><span class="chat-prop-val">'+esc(c.ticker)+'</span></div>';
+      html+='<div class="chat-prop"><span class="chat-prop-key">Revenue</span><span class="chat-prop-val">'+esc(c.revenue)+'</span></div>';
+      html+='<div class="chat-prop"><span class="chat-prop-key">Threat to KCIL</span><span class="chat-prop-val" style="color:'+threatClass+'">'+esc(c.threatLevel)+'</span></div>';
+      html+='<div class="chat-prop"><span class="chat-prop-key">HQ</span><span class="chat-prop-val">'+esc(c.hq)+'</span></div>';
+      html+='</div>';
+      html+='<div class="chat-section-title">Why a Competitor to KCIL</div><div class="chat-app-item"><div class="chat-app-dot" style="background:#f87171"></div>'+esc(c.whyCompetitor)+'</div>';
+      html+='<div class="chat-section-title">Shared Chemicals with KCIL</div><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:4px">';
+      c.sharedChemicals.forEach(function(ch){html+='<span style="font-size:11px;padding:3px 8px;border-radius:12px;background:rgba(99,102,241,.1);color:#818cf8">'+esc(ch)+'</span>';});
+      html+='</div>';
+      html+='<div class="chat-section-title" style="color:#4ade80">KCIL Advantage vs '+esc(c.name.split(' ')[0])+'</div>';
+      html+='<div class="chat-app-item"><div class="chat-app-dot" style="background:#4ade80"></div>'+esc(c.kcilAdvantage)+'</div>';
+      html+='<div class="chat-section-title">Their Key Strengths</div><div class="chat-app-list">';
+      c.competitorStrengths.slice(0,4).forEach(function(s){html+='<div class="chat-app-item"><div class="chat-app-dot" style="background:#f59e0b"></div>'+esc(s)+'</div>';});
+      html+='</div>';
+      html+='<a href="'+esc(c.website)+'" target="_blank" style="display:inline-block;margin-top:8px;font-size:11px;color:var(--accent)">Visit '+esc(c.name.split(' ')[0])+' official website →</a>';
+      return html;
+    }
+    // General competitor overview
+    var html='<div class="chem-name">KCIL Competitor Landscape</div>';
+    html+='<div class="chat-section-title">Top 10 Competitors</div>';
+    COMPETITORS.forEach(function(c,i){
+      var threatColor=c.threatLevel.indexOf('HIGH')>=0&&c.threatLevel.indexOf('MEDIUM')<0?'#f87171':c.threatLevel.indexOf('MEDIUM')>=0?'#fbbf24':'#4ade80';
+      html+='<div class="chat-app-item" style="margin-bottom:6px">';
+      html+='<div style="display:flex;align-items:flex-start;gap:8px">';
+      html+='<span style="font-size:10px;font-weight:700;background:rgba(99,102,241,.15);color:#818cf8;padding:2px 6px;border-radius:4px;flex-shrink:0;margin-top:1px">'+(i+1)+'</span>';
+      html+='<div><div style="font-weight:600;font-size:13px">'+esc(c.name)+'</div>';
+      html+='<div style="font-size:11px;color:var(--muted)">'+esc(c.country)+' · '+esc(c.type)+' · <span style="color:'+threatColor+'">'+esc(c.threatLevel)+'</span></div>';
+      html+='<div style="font-size:11px;color:var(--dim);margin-top:2px">Shared: '+esc(c.sharedChemicals.slice(0,3).join(', '))+(c.sharedChemicals.length>3?' +more':'')+'</div>';
+      html+='</div></div></div>';
+    });
+    html+='<div style="margin-top:10px;font-size:12px;color:var(--muted)">Ask about a specific competitor for detailed analysis. Example: <em>"Tell me about Laxmi Organic"</em> or <em>"How does KCIL compete with BASF?"</em></div>';
+    return html;
+  }
+
+  // ---- PRODUCT DATA ANSWERS (existing logic) ----
   var matches=products.filter(function(p){
     var text=(p.name+' '+p.synonyms+' '+p.applications.join(' ')+' '+p.casNum).toLowerCase();
     var words=q.split(/\s+/).filter(function(w){return w.length>2;});
     return words.some(function(w){return text.indexOf(w)>=0;});
   });
-  var isApps=/application|use|used for|industry|sector|purpose|where is/i.test(query);
-  var isProps=/property|properties|boiling|flash|density|formula|cas|molecular|weight|refractive|appearance/i.test(query);
-  var isCompare=/compare|vs|versus|difference|better|which is/i.test(query);
-  var isAdv=/advantage|benefit|why use|feature/i.test(query);
-  var isList=/list all|show all|all products|how many|which products|all chemicals/i.test(query);
-
   if(isList&&matches.length===0){
     var cats={};
     products.forEach(function(p){if(!cats[p.catLabel])cats[p.catLabel]=[];cats[p.catLabel].push(p.name);});
-    var html='<div style="font-weight:700;margin-bottom:10px">KCIL Complete Product Portfolio ('+products.length+' products)</div>';
+    var html='<div class="chem-name">KCIL Complete Product Portfolio ('+products.length+' products)</div>';
     Object.keys(cats).forEach(function(cat){
-      html+='<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin:8px 0 4px">'+esc(cat)+'</div>';
+      html+='<div class="chat-section-title">'+esc(cat)+'</div>';
       html+=cats[cat].map(function(n){return '<span class="chat-product-ref">'+esc(n)+'</span>';}).join('');
     });
     return html;
   }
   if(matches.length===0){
-    return '<div style="color:var(--muted);font-size:13px">No matching KCIL products found. Try names like <strong>Acetonitrile</strong>, <strong>THF</strong>, or topics like <em>pharmaceutical solvents</em>.</div>';
+    var sugg='<div style="color:var(--muted);font-size:13px"><strong>No results found.</strong> Try asking about:<ul style="margin:8px 0 0 16px;line-height:1.9">';
+    sugg+='<li>A chemical: <em>Acetonitrile, THF, NMP, Methylal</em></li>';
+    sugg+='<li>Market data: <em>What is the market size of Acetonitrile?</em></li>';
+    sugg+='<li>Competitors: <em>Who are KCIL competitors?</em></li>';
+    sugg+='<li>Applications: <em>Which chemicals are used in OLED?</em></li>';
+    sugg+='</ul></div>';
+    return sugg;
   }
   if(isCompare&&matches.length>=2){
-    var html='<div style="font-weight:700;margin-bottom:12px">Comparison: '+matches.slice(0,2).map(function(p){return p.name;}).join(' vs ')+'</div>';
+    var html='<div class="chem-name">Comparison: '+matches.slice(0,2).map(function(p){return p.name;}).join(' vs ')+'</div>';
     matches.slice(0,2).forEach(function(p){
-      html+='<div style="font-weight:700;color:var(--accent);margin-top:10px">'+esc(p.name)+'</div>';
+      html+='<div class="chat-section-title" style="color:var(--accent)">'+esc(p.name)+'</div>';
       if(p.casNum)html+='<div style="font-size:11px;margin:2px 0"><strong>CAS:</strong> '+esc(p.casNum)+' | <strong>Formula:</strong> '+esc(p.formula)+'</div>';
       var bp=p.properties.find(function(x){return /boiling/i.test(x.key);});
       if(bp)html+='<div style="font-size:11px;margin:2px 0"><strong>Boiling Point:</strong> '+esc(bp.value)+'</div>';
-      if(p.applications.length){html+='<div style="font-size:10px;color:var(--dim);margin:6px 0 2px">Applications:</div>';html+=p.applications.slice(0,3).map(function(a){return '<div class="chat-app-item"><div class="chat-app-dot"></div>'+esc(a)+'</div>';}).join('');}
+      if(p.applications.length){html+='<div class="chat-app-list">'+p.applications.slice(0,3).map(function(a){return '<div class="chat-app-item"><div class="chat-app-dot"></div>'+esc(a)+'</div>';}).join('')+'</div>';}
     });
     return html;
   }
@@ -1887,9 +2010,20 @@ function smartLocalAnswer(query){
       if(p.advantages&&p.advantages.length){html+='<div class="chat-section-title">Advantages</div><div class="chat-app-list">'+p.advantages.map(function(a){return '<div class="chat-app-item"><div class="chat-app-dot" style="background:#4f9cf9"></div>'+esc(a)+'</div>';}).join('')+'</div>';}
       if(p.packing){html+='<div class="chat-section-title">Packing</div><div style="font-size:12px;color:var(--muted)">'+esc(p.packing)+'</div>';}
     }
-    html+='<div style="margin-top:8px"><a href="'+esc(p.url)+'" target="_blank" style="font-size:11px;color:var(--accent)">View on KCIL website</a></div>';
+    // Add market teaser if available
+    var mkey=Object.keys(typeof MARKET_DATA!=='undefined'?MARKET_DATA:{}).find(function(k){return k.toLowerCase().indexOf(p.name.toLowerCase().split(' ')[0])>=0||p.name.toLowerCase().indexOf(k.toLowerCase().split(' ')[0])>=0;});
+    if(mkey){
+      var md=MARKET_DATA[mkey];
+      html+='<div class="chat-section-title">Market Data</div>';
+      html+='<div class="chat-prop-grid">';
+      html+='<div class="chat-prop"><span class="chat-prop-key">Market Size 2023</span><span class="chat-prop-val" style="color:#4ade80">$'+(md.marketSize2023>=1000?(md.marketSize2023/1000).toFixed(1)+'B':md.marketSize2023+'M')+'</span></div>';
+      html+='<div class="chat-prop"><span class="chat-prop-key">Forecast '+md.forecastPeriod.split('-')[1]+'</span><span class="chat-prop-val" style="color:#60a5fa">$'+(md.marketSize2030>=1000?(md.marketSize2030/1000).toFixed(1)+'B':md.marketSize2030+'M')+'</span></div>';
+      html+='<div class="chat-prop"><span class="chat-prop-key">CAGR</span><span class="chat-prop-val" style="color:#fbbf24;font-weight:700">'+md.cagr+'%</span></div>';
+      html+='</div>';
+    }
+    html+='<div style="margin-top:8px"><a href="'+esc(p.url)+'" target="_blank" style="font-size:11px;color:var(--accent)">View on KCIL website →</a></div>';
   });
-  if(matches.length>3)html+='<div style="margin-top:10px;font-size:12px;color:var(--dim)">...and '+(matches.length-3)+' more. Try a more specific query.</div>';
+  if(matches.length>3)html+='<div style="margin-top:10px;font-size:12px;color:var(--dim)">...and '+(matches.length-3)+' more results. Try a more specific query.</div>';
   return html;
 }
 
@@ -1915,7 +2049,15 @@ async function sendChatMessage(){
       var context=relevant.map(function(p){
         return 'Product: '+p.name+'\nSynonyms: '+p.synonyms+'\nCAS: '+p.casNum+'\nFormula: '+p.formula+'\nMW: '+p.molWeight+'\nProperties: '+p.properties.map(function(x){return x.key+': '+x.value;}).join(', ')+'\nApplications: '+p.applications.join('; ')+'\nAdvantages: '+p.advantages.join('; ')+'\nPacking: '+p.packing;
       }).join('\n---\n');
-      var prompt='You are an expert chemical analyst for KCIL (Kairav Chemofarbe Industries Ltd), a leading specialty chemical manufacturer in India. Answer ONLY based on the following KCIL product data. Be accurate, clear and well-structured. Use bullet points for lists.\n\nKCIL Product Data:\n'+context+'\n\nUser question: '+query;
+      var marketCtx2='';
+      if(typeof MARKET_DATA!=='undefined'){
+        var mkeys2=Object.keys(MARKET_DATA);
+        var mFound2=mkeys2.find(function(k){return relevant.some(function(rp){return k.toLowerCase().indexOf(rp.name.toLowerCase().split(' ')[0])>=0||rp.name.toLowerCase().indexOf(k.toLowerCase().split(' ')[0])>=0;});});
+        if(mFound2){var md2=MARKET_DATA[mFound2];marketCtx2='\n\nMARKET DATA for '+mFound2+': Size 2023=$'+md2.marketSize2023+'M, Forecast '+md2.forecastPeriod.split('-')[1]+'=$'+md2.marketSize2030+'M, CAGR='+md2.cagr+'%. Drivers: '+md2.keyDrivers.join('; ')+'. Outlook: '+md2.outlook+'. Source: '+md2.source+'('+md2.sourceYear+')';}
+      }
+      var compCtx2='';
+      if(typeof COMPETITORS!=='undefined'){compCtx2='\n\nKCIL TOP COMPETITORS: '+COMPETITORS.slice(0,5).map(function(c){return c.name+'('+c.country+','+c.type+'): competes on '+c.sharedChemicals.slice(0,2).join(',')+', Threat='+c.threatLevel+', KCIL advantage='+c.kcilAdvantage;}).join(' | ');}
+      var prompt='You are KCIL AI — a professional chemical market analyst for KCIL (Kairav Chemofarbe Industries Ltd), India. Answer with precision, structure and professionalism. Use bullet points. Always cite sources for market figures.\n\nKCIL Products:\n'+context+marketCtx2+compCtx2+'\n\nUser question: '+query;
       var resp=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+apiKey,{
         method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.2,maxOutputTokens:1024}})
