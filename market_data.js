@@ -29,10 +29,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Steady growth driven by pharmaceutical and specialty chemical demand. Asia-Pacific fastest growing region.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/14-dioxane-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/14+dioxane",
+  "mmLink": "https://www.marketsandmarkets.com/search/14-Dioxane",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/dioxane-market",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=1,4-Dioxane",
-  "statiLink": "https://www.statista.com/search/#q=1,4-Dioxane"
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=14-Dioxane",
+  "statiLink": "https://www.statista.com/search/#q=14-Dioxane+market",
+  "googleLink": "https://www.google.com/search?q=1%2C4-Dioxane+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=1%2C4-Dioxane+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=1%2C4-Dioxane+market+site:mordorintelligence.com"
  },
  "1,3-Dioxolane": {
   "marketSize2023": 85,
@@ -60,10 +63,13 @@ const MARKET_DATA = {
   ],
   "outlook": "HIGH GROWTH — EV battery boom is the primary driver. 1,3-Dioxolane is a key co-solvent in lithium battery electrolytes.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/13-dioxolane-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/1%2C3-dioxolane",
+  "mmLink": "https://www.marketsandmarkets.com/search/13-Dioxolane",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/13-dioxolane-market",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=1,3-Dioxolane",
-  "statiLink": "https://www.statista.com/search/#q=1,3-Dioxolane"
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=13-Dioxolane",
+  "statiLink": "https://www.statista.com/search/#q=13-Dioxolane+market",
+  "googleLink": "https://www.google.com/search?q=1%2C3-Dioxolane+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=1%2C3-Dioxolane+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=1%2C3-Dioxolane+market+site:mordorintelligence.com"
  },
  "Acetonitrile": {
   "marketSize2023": 395,
@@ -93,10 +99,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Strong pharma-driven growth. India and China key growth markets. Supply tied to acrylonitrile byproduct — price volatility occasional.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/acetonitrile-market",
-  "mmLink": "https://www.marketsandmarkets.com/Market-Reports/acetonitrile-market-236397044.html",
+  "mmLink": "https://www.marketsandmarkets.com/search/Acetonitrile",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/acetonitrile-market",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Acetonitrile",
-  "statiLink": "https://www.statista.com/search/#q=Acetonitrile"
+  "statiLink": "https://www.statista.com/search/#q=Acetonitrile+market",
+  "googleLink": "https://www.google.com/search?q=Acetonitrile+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Acetonitrile+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Acetonitrile+market+site:mordorintelligence.com"
  },
  "Diisopropyl Ether (DIPE)": {
   "marketSize2023": 180,
@@ -124,10 +133,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Moderate growth. Fuel additive segment driven by octane requirements in North America and Europe.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/diisopropyl-ether-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/diisopropyl+ether",
+  "mmLink": "https://www.marketsandmarkets.com/search/Diisopropyl%20Ether%20DIPE",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/diisopropyl-ether-market",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Diisopropyl+Ether+(DIPE)",
-  "statiLink": "https://www.statista.com/search/#q=Diisopropyl+Ether+(DIPE)"
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Diisopropyl+Ether+DIPE",
+  "statiLink": "https://www.statista.com/search/#q=Diisopropyl+Ether+DIPE+market",
+  "googleLink": "https://www.google.com/search?q=Diisopropyl+Ether+(DIPE)+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Diisopropyl+Ether+(DIPE)+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Diisopropyl+Ether+(DIPE)+market+site:mordorintelligence.com"
  },
  "N-Methylpyrrolidone (NMP)": {
   "marketSize2023": 1380,
@@ -157,10 +169,13 @@ const MARKET_DATA = {
   ],
   "outlook": "HIGH GROWTH — primarily driven by global EV battery manufacturing boom. NMP recovery systems critical. Major producers: BASF, Mitsubishi Chemical, LG Chem.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/n-methyl-pyrrolidone-nmp-market",
-  "mmLink": "https://www.marketsandmarkets.com/Market-Reports/n-methyl-pyrrolidone-market-77697726.html",
+  "mmLink": "https://www.marketsandmarkets.com/search/N-Methylpyrrolidone%20NMP",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/n-methyl-pyrrolidone-nmp-market",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=N-Methylpyrrolidone+(NMP)",
-  "statiLink": "https://www.statista.com/search/#q=N-Methylpyrrolidone+(NMP)"
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=N-Methylpyrrolidone+NMP",
+  "statiLink": "https://www.statista.com/search/#q=N-Methylpyrrolidone+NMP+market",
+  "googleLink": "https://www.google.com/search?q=N-Methylpyrrolidone+(NMP)+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=N-Methylpyrrolidone+(NMP)+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=N-Methylpyrrolidone+(NMP)+market+site:mordorintelligence.com"
  },
  "Dibutyl Ether": {
   "marketSize2023": 95,
@@ -188,10 +203,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Steady niche growth. Key driver is pharmaceutical process chemistry requiring high-boiling ethers.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/dibutyl-ether-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/dibutyl+ether",
+  "mmLink": "https://www.marketsandmarkets.com/search/Dibutyl%20Ether",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/dibutyl-ether-market",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Dibutyl+Ether",
-  "statiLink": "https://www.statista.com/search/#q=Dibutyl+Ether"
+  "statiLink": "https://www.statista.com/search/#q=Dibutyl+Ether+market",
+  "googleLink": "https://www.google.com/search?q=Dibutyl+Ether+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Dibutyl+Ether+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Dibutyl+Ether+market+site:mordorintelligence.com"
  },
  "Tetrahydrofuran (THF)": {
   "marketSize2023": 2100,
@@ -221,10 +239,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Strong growth driven by spandex/polyurethane demand (sportswear, medical textiles) and pharma. Major producers: Ashland, Dairen, BASF, Mitsubishi.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/tetrahydrofuran-thf-market",
-  "mmLink": "https://www.marketsandmarkets.com/Market-Reports/tetrahydrofuran-market-191574753.html",
+  "mmLink": "https://www.marketsandmarkets.com/search/Tetrahydrofuran%20THF",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/tetrahydrofuran-market",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Tetrahydrofuran+(THF)",
-  "statiLink": "https://www.statista.com/search/#q=Tetrahydrofuran+(THF)"
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Tetrahydrofuran+THF",
+  "statiLink": "https://www.statista.com/search/#q=Tetrahydrofuran+THF+market",
+  "googleLink": "https://www.google.com/search?q=Tetrahydrofuran+(THF)+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Tetrahydrofuran+(THF)+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Tetrahydrofuran+(THF)+market+site:mordorintelligence.com"
  },
  "Butylal": {
   "marketSize2023": 45,
@@ -251,10 +272,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Niche but steady growth driven by premium fragrance industry.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/aroma-chemicals-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/butylal+fragrance",
+  "mmLink": "https://www.marketsandmarkets.com/search/Butylal",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/fragrance-market",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Butylal",
-  "statiLink": "https://www.statista.com/search/#q=Butylal"
+  "statiLink": "https://www.statista.com/search/#q=Butylal+market",
+  "googleLink": "https://www.google.com/search?q=Butylal+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Butylal+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Butylal+market+site:mordorintelligence.com"
  },
  "Ethylal": {
   "marketSize2023": 38,
@@ -281,10 +305,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Niche stable market with moderate growth. Used across pharma and fine fragrance sectors.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/specialty-solvents-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/ethylal+specialty+solvent",
-  "mordorLink": "https://www.mordorintelligence.com/search?query=ethylal",
+  "mmLink": "https://www.marketsandmarkets.com/search/Ethylal",
+  "mordorLink": "https://www.mordorintelligence.com/search?query=Ethylal",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Ethylal",
-  "statiLink": "https://www.statista.com/search/#q=Ethylal"
+  "statiLink": "https://www.statista.com/search/#q=Ethylal+market",
+  "googleLink": "https://www.google.com/search?q=Ethylal+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Ethylal+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Ethylal+market+site:mordorintelligence.com"
  },
  "Methylal": {
   "marketSize2023": 245,
@@ -314,10 +341,13 @@ const MARKET_DATA = {
   ],
   "outlook": "HIGH GROWTH — Green chemistry megatrend and EU VOC regulations are major tailwinds. Methylal is positioned as a key sustainable solvent.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/methylal-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/methylal+green+solvent",
+  "mmLink": "https://www.marketsandmarkets.com/search/Methylal",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/methylal-market",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Methylal",
-  "statiLink": "https://www.statista.com/search/#q=Methylal"
+  "statiLink": "https://www.statista.com/search/#q=Methylal+market",
+  "googleLink": "https://www.google.com/search?q=Methylal+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Methylal+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Methylal+market+site:mordorintelligence.com"
  },
  "2-Methyl Tetrahydrofuran (2-MeTHF)": {
   "marketSize2023": 155,
@@ -346,10 +376,13 @@ const MARKET_DATA = {
   ],
   "outlook": "VERY HIGH GROWTH — fastest-growing specialty solvent. Bio-based origin and green chemistry regulatory tailwinds in US and EU.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/2-methyltetrahydrofuran-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/2-methyl+tetrahydrofuran",
+  "mmLink": "https://www.marketsandmarkets.com/search/2-Methyl%20Tetrahydrofuran%202",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/2-methyltetrahydrofuran-market",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=2-Methyl+Tetrahydrofuran+(2-MeTHF)",
-  "statiLink": "https://www.statista.com/search/#q=2-Methyl+Tetrahydrofuran+(2-Me"
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=2-Methyl+Tetrahydrofuran+2-MeT",
+  "statiLink": "https://www.statista.com/search/#q=2-Methyl+Tetrahydrofuran++market",
+  "googleLink": "https://www.google.com/search?q=2-Methyl+Tetrahydrofuran+(2-MeTHF)+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=2-Methyl+Tetrahydrofuran+(2-MeTHF)+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=2-Methyl+Tetrahydrofuran+(2-MeTHF)+market+site:mordorintelligence.com"
  },
  "2,5,7,10-Tetraoxaundecane (TOU)": {
   "marketSize2023": 28,
@@ -376,10 +409,13 @@ const MARKET_DATA = {
   ],
   "outlook": "High growth driven by EV battery electrolyte formulations. TOU is a key glyme-family solvent.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/glyme-solvents-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/glyme+solvent+battery",
-  "mordorLink": "https://www.mordorintelligence.com/search?query=glyme+battery+electrolyte",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=2,5,7,10-Tetraoxaundecane+(TOU)",
-  "statiLink": "https://www.statista.com/search/#q=2,5,7,10-Tetraoxaundecane+(TOU"
+  "mmLink": "https://www.marketsandmarkets.com/search/25710-Tetraoxaundecane%20TOU",
+  "mordorLink": "https://www.mordorintelligence.com/search?query=25710-Tetraoxaundecane+TOU",
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=25710-Tetraoxaundecane+TOU",
+  "statiLink": "https://www.statista.com/search/#q=25710-Tetraoxaundecane+TO+market",
+  "googleLink": "https://www.google.com/search?q=2%2C5%2C7%2C10-Tetraoxaundecane+(TOU)+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=2%2C5%2C7%2C10-Tetraoxaundecane+(TOU)+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=2%2C5%2C7%2C10-Tetraoxaundecane+(TOU)+market+site:mordorintelligence.com"
  },
  "Triglyme": {
   "marketSize2023": 65,
@@ -406,10 +442,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Strong growth linked to next-generation battery technology (Li-S, Li-air) research and commercialization.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/triethylene-glycol-dimethyl-ether-triglyme-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/triglyme+battery",
-  "mordorLink": "https://www.mordorintelligence.com/search?query=triglyme+electrolyte",
+  "mmLink": "https://www.marketsandmarkets.com/search/Triglyme",
+  "mordorLink": "https://www.mordorintelligence.com/search?query=Triglyme",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Triglyme",
-  "statiLink": "https://www.statista.com/search/#q=Triglyme"
+  "statiLink": "https://www.statista.com/search/#q=Triglyme+market",
+  "googleLink": "https://www.google.com/search?q=Triglyme+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Triglyme+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Triglyme+market+site:mordorintelligence.com"
  },
  "Phenyl Boronic Acid (PBA)": {
   "marketSize2023": 185,
@@ -439,10 +478,13 @@ const MARKET_DATA = {
   ],
   "outlook": "VERY HIGH GROWTH — Sartan drugs alone are a $10B+ market. Boronic acid chemistry is foundational to modern drug synthesis.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/boronic-acid-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/phenylboronic+acid",
+  "mmLink": "https://www.marketsandmarkets.com/search/Phenyl%20Boronic%20Acid%20PBA",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/boronic-acid-market",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Phenyl+Boronic+Acid+(PBA)",
-  "statiLink": "https://www.statista.com/search/#q=Phenyl+Boronic+Acid+(PBA)"
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Phenyl+Boronic+Acid+PBA",
+  "statiLink": "https://www.statista.com/search/#q=Phenyl+Boronic+Acid+PBA+market",
+  "googleLink": "https://www.google.com/search?q=Phenyl+Boronic+Acid+(PBA)+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Phenyl+Boronic+Acid+(PBA)+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Phenyl+Boronic+Acid+(PBA)+market+site:mordorintelligence.com"
  },
  "5-(Ethylthio)-1H-tetrazole (ETT)": {
   "marketSize2023": 42,
@@ -470,10 +512,13 @@ const MARKET_DATA = {
   ],
   "outlook": "VERY HIGH GROWTH — oligonucleotide therapeutics fastest-growing pharma sector. ETT is an irreplaceable activator in DNA/RNA synthesis.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/oligonucleotide-synthesis-market",
-  "mmLink": "https://www.marketsandmarkets.com/Market-Reports/oligonucleotide-synthesis-market-1251.html",
+  "mmLink": "https://www.marketsandmarkets.com/search/5-Ethylthio-1H-tetrazole%20ETT",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/oligonucleotide-synthesis-market",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=5-(Ethylthio)-1H-tetrazole+(ETT)",
-  "statiLink": "https://www.statista.com/search/#q=5-(Ethylthio)-1H-tetrazole+(ET"
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=5-Ethylthio-1H-tetrazole+ETT",
+  "statiLink": "https://www.statista.com/search/#q=5-Ethylthio-1H-tetrazole++market",
+  "googleLink": "https://www.google.com/search?q=5-(Ethylthio)-1H-tetrazole+(ETT)+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=5-(Ethylthio)-1H-tetrazole+(ETT)+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=5-(Ethylthio)-1H-tetrazole+(ETT)+market+site:mordorintelligence.com"
  },
  "2-Amino-4'-chlorobiphenyl": {
   "marketSize2023": 155,
@@ -501,10 +546,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Strong growth. Sartan market is $8B+ globally. India manufactures majority of the world's generic sartans.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/angiotensin-receptor-blockers-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/biphenyl+pharmaceutical+intermediate",
-  "mordorLink": "https://www.mordorintelligence.com/search?query=biphenyl+pharmaceutical",
+  "mmLink": "https://www.marketsandmarkets.com/search/2-Amino-4'-chlorobiphenyl",
+  "mordorLink": "https://www.mordorintelligence.com/search?query=2-Amino-4'-chlorobiphenyl",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=2-Amino-4'-chlorobiphenyl",
-  "statiLink": "https://www.statista.com/search/#q=2-Amino-4'-chlorobiphenyl"
+  "statiLink": "https://www.statista.com/search/#q=2-Amino-4'-chlorobiphenyl+market",
+  "googleLink": "https://www.google.com/search?q=2-Amino-4'-chlorobiphenyl+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=2-Amino-4'-chlorobiphenyl+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=2-Amino-4'-chlorobiphenyl+market+site:mordorintelligence.com"
  },
  "4-Chloro Phenyl Boronic Acid": {
   "marketSize2023": 78,
@@ -532,10 +580,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Very high growth. Chloro-substituted boronic acids are critical for multiple blockbuster drug syntheses.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/boronic-acid-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/chlorophenyl+boronic+acid",
+  "mmLink": "https://www.marketsandmarkets.com/search/4-Chloro%20Phenyl%20Boronic%20",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/boronic-acid-market",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=4-Chloro+Phenyl+Boronic+Acid",
-  "statiLink": "https://www.statista.com/search/#q=4-Chloro+Phenyl+Boronic+Acid"
+  "statiLink": "https://www.statista.com/search/#q=4-Chloro+Phenyl+Boronic+A+market",
+  "googleLink": "https://www.google.com/search?q=4-Chloro+Phenyl+Boronic+Acid+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=4-Chloro+Phenyl+Boronic+Acid+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=4-Chloro+Phenyl+Boronic+Acid+market+site:mordorintelligence.com"
  },
  "HOBt (1-Hydroxybenzotriazole) In NMP": {
   "marketSize2023": 95,
@@ -563,10 +614,13 @@ const MARKET_DATA = {
   ],
   "outlook": "VERY HIGH GROWTH — GLP-1 drugs for diabetes/obesity are the #1 pharma growth driver globally. HOBt in NMP is essential for peptide manufacturing.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/peptide-synthesis-market",
-  "mmLink": "https://www.marketsandmarkets.com/Market-Reports/peptide-synthesis-market-96327486.html",
+  "mmLink": "https://www.marketsandmarkets.com/search/HOBt%201-Hydroxybenzotriazole%",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/peptide-synthesis-market",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=HOBt+(1-Hydroxybenzotriazole)+In+NMP",
-  "statiLink": "https://www.statista.com/search/#q=HOBt+(1-Hydroxybenzotriazole)+"
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=HOBt+1-Hydroxybenzotriazole+In",
+  "statiLink": "https://www.statista.com/search/#q=HOBt+1-Hydroxybenzotriazo+market",
+  "googleLink": "https://www.google.com/search?q=HOBt+(1-Hydroxybenzotriazole)+In+NMP+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=HOBt+(1-Hydroxybenzotriazole)+In+NMP+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=HOBt+(1-Hydroxybenzotriazole)+In+NMP+market+site:mordorintelligence.com"
  },
  "Dimethyl Benzyl Carbinyl Butyrate": {
   "marketSize2023": 58,
@@ -594,10 +648,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Stable growth. Global fragrance market is $52B (2024) growing at 6%+ CAGR — premium aroma chemicals benefit from premiumisation trend.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/aroma-chemicals-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/aroma+chemicals+fragrance",
+  "mmLink": "https://www.marketsandmarkets.com/search/Dimethyl%20Benzyl%20Carbinyl%2",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/fragrance-market",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Dimethyl+Benzyl+Carbinyl+Butyrate",
-  "statiLink": "https://www.statista.com/search/#q=Dimethyl+Benzyl+Carbinyl+Butyr"
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Dimethyl+Benzyl+Carbinyl+Butyr",
+  "statiLink": "https://www.statista.com/search/#q=Dimethyl+Benzyl+Carbinyl++market",
+  "googleLink": "https://www.google.com/search?q=Dimethyl+Benzyl+Carbinyl+Butyrate+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Dimethyl+Benzyl+Carbinyl+Butyrate+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Dimethyl+Benzyl+Carbinyl+Butyrate+market+site:mordorintelligence.com"
  },
  "Sodium tert-Butoxide (STB) in THF": {
   "marketSize2023": 72,
@@ -625,10 +682,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Strong growth. Metal-catalyzed coupling reactions are backbone of modern drug synthesis — alkoxide bases are indispensable.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/specialty-chemicals-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/sodium+tert-butoxide",
-  "mordorLink": "https://www.mordorintelligence.com/search?query=sodium+tert-butoxide",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Sodium+tert-Butoxide+(STB)+in+THF",
-  "statiLink": "https://www.statista.com/search/#q=Sodium+tert-Butoxide+(STB)+in+"
+  "mmLink": "https://www.marketsandmarkets.com/search/Sodium%20tert-Butoxide%20STB%2",
+  "mordorLink": "https://www.mordorintelligence.com/search?query=Sodium+tert-Butoxide+STB+in+THF",
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Sodium+tert-Butoxide+STB+in+TH",
+  "statiLink": "https://www.statista.com/search/#q=Sodium+tert-Butoxide+STB++market",
+  "googleLink": "https://www.google.com/search?q=Sodium+tert-Butoxide+(STB)+in+THF+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Sodium+tert-Butoxide+(STB)+in+THF+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Sodium+tert-Butoxide+(STB)+in+THF+market+site:mordorintelligence.com"
  },
  "Potassium tert-Butoxide in THF": {
   "marketSize2023": 68,
@@ -656,10 +716,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Strong stable growth. KOtBu preferred for demanding reactions — growing in tandem with pharma synthesis expansion.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/specialty-chemicals-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/potassium+tert-butoxide",
-  "mordorLink": "https://www.mordorintelligence.com/search?query=potassium+tert-butoxide",
+  "mmLink": "https://www.marketsandmarkets.com/search/Potassium%20tert-Butoxide%20in",
+  "mordorLink": "https://www.mordorintelligence.com/search?query=Potassium+tert-Butoxide+in+THF",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Potassium+tert-Butoxide+in+THF",
-  "statiLink": "https://www.statista.com/search/#q=Potassium+tert-Butoxide+in+THF"
+  "statiLink": "https://www.statista.com/search/#q=Potassium+tert-Butoxide+i+market",
+  "googleLink": "https://www.google.com/search?q=Potassium+tert-Butoxide+in+THF+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Potassium+tert-Butoxide+in+THF+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Potassium+tert-Butoxide+in+THF+market+site:mordorintelligence.com"
  },
  "1,3-Benzodioxole": {
   "marketSize2023": 88,
@@ -687,10 +750,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Strong growth. India is the world's largest generic pharma exporter. CNS and cardiovascular intermediates are in high demand.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/pharmaceutical-intermediates-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/benzodioxole+pharmaceutical",
-  "mordorLink": "https://www.mordorintelligence.com/search?query=benzodioxole+pharma",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=1,3-Benzodioxole",
-  "statiLink": "https://www.statista.com/search/#q=1,3-Benzodioxole"
+  "mmLink": "https://www.marketsandmarkets.com/search/13-Benzodioxole",
+  "mordorLink": "https://www.mordorintelligence.com/search?query=13-Benzodioxole",
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=13-Benzodioxole",
+  "statiLink": "https://www.statista.com/search/#q=13-Benzodioxole+market",
+  "googleLink": "https://www.google.com/search?q=1%2C3-Benzodioxole+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=1%2C3-Benzodioxole+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=1%2C3-Benzodioxole+market+site:mordorintelligence.com"
  },
  "3-Bromocarbazole": {
   "marketSize2023": 48,
@@ -718,10 +784,13 @@ const MARKET_DATA = {
   ],
   "outlook": "HIGHEST GROWTH CHEMICAL — OLED materials fastest-growing specialty chemical sector. Global OLED market is $45B+. Carbazole derivatives are key hole transport materials.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/oled-materials-market",
-  "mmLink": "https://www.marketsandmarkets.com/Market-Reports/oled-material-market-1233.html",
+  "mmLink": "https://www.marketsandmarkets.com/search/3-Bromocarbazole",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/oled-materials-market",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=3-Bromocarbazole",
-  "statiLink": "https://www.statista.com/search/#q=3-Bromocarbazole"
+  "statiLink": "https://www.statista.com/search/#q=3-Bromocarbazole+market",
+  "googleLink": "https://www.google.com/search?q=3-Bromocarbazole+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=3-Bromocarbazole+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=3-Bromocarbazole+market+site:mordorintelligence.com"
  },
  "2-Chlorothiophene": {
   "marketSize2023": 68,
@@ -749,10 +818,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Strong growth. Clopidogrel generics are a $2B+ global market. India and China are primary manufacturing hubs.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/thiophene-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/chlorothiophene",
-  "mordorLink": "https://www.mordorintelligence.com/search?query=chlorothiophene+pharma",
+  "mmLink": "https://www.marketsandmarkets.com/search/2-Chlorothiophene",
+  "mordorLink": "https://www.mordorintelligence.com/search?query=2-Chlorothiophene",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=2-Chlorothiophene",
-  "statiLink": "https://www.statista.com/search/#q=2-Chlorothiophene"
+  "statiLink": "https://www.statista.com/search/#q=2-Chlorothiophene+market",
+  "googleLink": "https://www.google.com/search?q=2-Chlorothiophene+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=2-Chlorothiophene+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=2-Chlorothiophene+market+site:mordorintelligence.com"
  },
  "2,5-Dichlorothiophene": {
   "marketSize2023": 42,
@@ -779,10 +851,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Strong growth driven by global agrochemical sector and organic electronics industry expansion.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/agrochemical-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/dichlorothiophene",
-  "mordorLink": "https://www.mordorintelligence.com/search?query=dichlorothiophene",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=2,5-Dichlorothiophene",
-  "statiLink": "https://www.statista.com/search/#q=2,5-Dichlorothiophene"
+  "mmLink": "https://www.marketsandmarkets.com/search/25-Dichlorothiophene",
+  "mordorLink": "https://www.mordorintelligence.com/search?query=25-Dichlorothiophene",
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=25-Dichlorothiophene",
+  "statiLink": "https://www.statista.com/search/#q=25-Dichlorothiophene+market",
+  "googleLink": "https://www.google.com/search?q=2%2C5-Dichlorothiophene+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=2%2C5-Dichlorothiophene+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=2%2C5-Dichlorothiophene+market+site:mordorintelligence.com"
  },
  "Naphthyl Boronic Acid": {
   "marketSize2023": 52,
@@ -810,10 +885,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Very high growth. Naphthyl boronic acids critical for biaryl-containing drug candidates in oncology pipeline.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/boronic-acid-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/naphthyl+boronic+acid",
+  "mmLink": "https://www.marketsandmarkets.com/search/Naphthyl%20Boronic%20Acid",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/boronic-acid-market",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Naphthyl+Boronic+Acid",
-  "statiLink": "https://www.statista.com/search/#q=Naphthyl+Boronic+Acid"
+  "statiLink": "https://www.statista.com/search/#q=Naphthyl+Boronic+Acid+market",
+  "googleLink": "https://www.google.com/search?q=Naphthyl+Boronic+Acid+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Naphthyl+Boronic+Acid+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Naphthyl+Boronic+Acid+market+site:mordorintelligence.com"
  },
  "Paroxetine Intermediate": {
   "marketSize2023": 125,
@@ -841,10 +919,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Stable strong growth. Global SSRI market is $16B+. India manufactures majority of generic paroxetine for global export.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/antidepressant-drugs-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/paroxetine+intermediate",
-  "mordorLink": "https://www.mordorintelligence.com/search?query=paroxetine+synthesis",
+  "mmLink": "https://www.marketsandmarkets.com/search/Paroxetine%20Intermediate",
+  "mordorLink": "https://www.mordorintelligence.com/search?query=Paroxetine+Intermediate",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Paroxetine+Intermediate",
-  "statiLink": "https://www.statista.com/search/#q=Paroxetine+Intermediate"
+  "statiLink": "https://www.statista.com/search/#q=Paroxetine+Intermediate+market",
+  "googleLink": "https://www.google.com/search?q=Paroxetine+Intermediate+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Paroxetine+Intermediate+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Paroxetine+Intermediate+market+site:mordorintelligence.com"
  },
  "3-Methyl Tetrahydrofuran (3-MeTHF)": {
   "marketSize2023": 35,
@@ -871,10 +952,13 @@ const MARKET_DATA = {
   ],
   "outlook": "Strong niche growth. As specialty pharma grows, demand for non-standard THF isomers increases for complex API synthesis.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/specialty-solvents-market",
-  "mmLink": "https://www.marketsandmarkets.com/search/methyl+tetrahydrofuran",
-  "mordorLink": "https://www.mordorintelligence.com/search?query=3-methyltetrahydrofuran",
-  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=3-Methyl+Tetrahydrofuran+(3-MeTHF)",
-  "statiLink": "https://www.statista.com/search/#q=3-Methyl+Tetrahydrofuran+(3-Me"
+  "mmLink": "https://www.marketsandmarkets.com/search/3-Methyl%20Tetrahydrofuran%203",
+  "mordorLink": "https://www.mordorintelligence.com/search?query=3-Methyl+Tetrahydrofuran+3-MeTHF",
+  "icicLink": "https://www.icis.com/explore/resources/news/search/?q=3-Methyl+Tetrahydrofuran+3-MeT",
+  "statiLink": "https://www.statista.com/search/#q=3-Methyl+Tetrahydrofuran++market",
+  "googleLink": "https://www.google.com/search?q=3-Methyl+Tetrahydrofuran+(3-MeTHF)+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=3-Methyl+Tetrahydrofuran+(3-MeTHF)+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=3-Methyl+Tetrahydrofuran+(3-MeTHF)+market+site:mordorintelligence.com"
  },
  "Green Chemistry Solutions": {
   "marketSize2023": 15200,
@@ -904,10 +988,13 @@ const MARKET_DATA = {
   ],
   "outlook": "MEGA TREND — Green chemistry is the defining megatrend of the chemical industry for 2025-2035. Bio-based and biodegradable chemicals will replace hazardous equivalents across all sectors.",
   "gvrLink": "https://www.grandviewresearch.com/industry-analysis/green-chemistry-market",
-  "mmLink": "https://www.marketsandmarkets.com/Market-Reports/green-chemistry-market-159576.html",
+  "mmLink": "https://www.marketsandmarkets.com/search/Green%20Chemistry%20Solutions",
   "mordorLink": "https://www.mordorintelligence.com/industry-reports/green-chemistry-market",
   "icicLink": "https://www.icis.com/explore/resources/news/search/?q=Green+Chemistry+Solutions",
-  "statiLink": "https://www.statista.com/search/#q=Green+Chemistry+Solutions"
+  "statiLink": "https://www.statista.com/search/#q=Green+Chemistry+Solutions+market",
+  "googleLink": "https://www.google.com/search?q=Green+Chemistry+Solutions+market+size+CAGR+2024+report",
+  "googleGVR": "https://www.google.com/search?q=Green+Chemistry+Solutions+market+site:grandviewresearch.com",
+  "googleMordor": "https://www.google.com/search?q=Green+Chemistry+Solutions+market+site:mordorintelligence.com"
  }
 };
 
