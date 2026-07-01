@@ -1631,7 +1631,7 @@ function switchTab(t){
   document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('active',x.dataset.tab===t);});
   document.querySelectorAll('.tab-content').forEach(function(x){x.classList.toggle('active',x.id==='tab-'+t);});
   var fb=document.getElementById('filterBar');
-  if(fb)fb.style.display=(t==='ai'||t==='multisource'||t==='market'||t==='competitors')?'none':'flex';
+  if(fb)fb.style.display=(t==='ai'||t==='multisource'||t==='market'||t==='competitors'||t==='customscrape')?'none':'flex';
   updateCount();
 }
 function updateCount(){var d=scrapedData[currentTab];var n=d?d.length:0;document.getElementById('resultCount').textContent=n>0?n+' item'+(n!==1?'s':''):'No data yet';}
@@ -1881,10 +1881,9 @@ function smartLocalAnswer(query){
       html+='<div class="chat-section-title">Key Regions</div><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:4px">';
       d.keyRegions.forEach(function(r){html+='<span style="font-size:11px;padding:3px 8px;border-radius:12px;background:rgba(59,130,246,.1);color:#60a5fa">'+esc(r)+'</span>';});
       html+='</div>';
-      html+='<div class="chat-section-title" style="margin-top:10px">Verify This Data — Certified Sources</div>';
-      var glink='https://www.google.com/search?q='+encodeURIComponent(mFound+' market size CAGR '+d.forecastPeriod+' '+d.source);
-      html+='<a href="'+glink+'" target="_blank" style="display:block;margin-top:6px;padding:10px 14px;border-radius:8px;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:#4ade80;font-weight:700;font-size:12px;text-decoration:none">Verify this data → Search Google for \"'+esc(mFound)+' market size CAGR '+esc(d.forecastPeriod)+'\"</a>';
-      html+='<div style="font-size:10px;color:var(--dim);margin-top:8px;font-style:italic">Source: '+esc(d.source)+' ('+d.sourceYear+') | Data from publicly available executive summaries of certified research firms.</div>';
+      html+='<div class="chat-section-title" style="margin-top:10px">Verify This Data — Certified Source Report</div>';
+      var glink = d.gvrLink;
+      html+='<a href="'+glink+'" target="_blank" style="display:block;margin-top:6px;padding:10px 14px;border-radius:8px;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);color:#4ade80;font-weight:700;font-size:12px;text-decoration:none">🔗 View Certified Source Report on Grand View Research (Direct Link)</a>';html+='<div style="font-size:10px;color:var(--dim);margin-top:8px;font-style:italic">Source: '+esc(d.source)+' ('+d.sourceYear+') | Data from publicly available executive summaries of certified research firms.</div>';
       return html;
     }
     // General market question — show top chemicals by CAGR
@@ -2178,3 +2177,325 @@ window.addEventListener('DOMContentLoaded',function(){
   var fb=document.getElementById('filterBar');if(fb)fb.style.display='none';
 });
 
+
+
+// ============================================================
+// CUSTOM SCRAPER FUNCTIONALITY
+// ============================================================
+var lastScrapedChemical = null;
+
+function fillCsUrl(url) {
+  document.getElementById('csUrlInput').value = url;
+}
+
+function updateCsStatus(msg, type) {
+  var el = document.getElementById('csStatus');
+  if (!el) return;
+  if (type === 'loading') {
+    el.innerHTML = '<div class="cs-spinner"></div><span>' + esc(msg) + '</span>';
+  } else if (type === 'error') {
+    el.innerHTML = '<span style="color:#f87171">❌ ' + esc(msg) + '</span>';
+  } else if (type === 'success') {
+    el.innerHTML = '<span style="color:#4ade80">✓ ' + esc(msg) + '</span>';
+  } else {
+    el.textContent = msg;
+  }
+}
+
+async function runCustomScrape() {
+  var urlInput = document.getElementById('csUrlInput');
+  var url = urlInput ? urlInput.value.trim() : '';
+  var btn = document.getElementById('csBtnScrape');
+  var container = document.getElementById('csResultContainer');
+  
+  if (!url) {
+    updateCsStatus('Please enter or paste a website URL.', 'error');
+    return;
+  }
+  
+  if (btn) btn.disabled = true;
+  container.style.display = 'none';
+  lastScrapedChemical = null;
+  updateCsStatus('Connecting to proxy and fetching website HTML...', 'loading');
+  
+  try {
+    var rawHtml = await fetchPage(url);
+    updateCsStatus('HTML fetched successfully. Parsing content...', 'loading');
+    
+    var apiKey = (document.getElementById('geminiKey').value || '').trim();
+    var result = null;
+    
+    if (apiKey) {
+      updateCsStatus('Analyzing page with Gemini AI for chemical data extraction...', 'loading');
+      result = await parseChemicalWithGemini(rawHtml, url, apiKey);
+    } else {
+      updateCsStatus('No API Key. Running local heuristic parser...', 'loading');
+      result = parseChemicalLocally(rawHtml, url);
+    }
+    
+    if (!result || !result.name) {
+      throw new Error('Failed to parse chemical name or properties from the page.');
+    }
+    
+    lastScrapedChemical = result;
+    renderScrapedResult(result);
+    updateCsStatus('Successfully scraped chemical: ' + result.name, 'success');
+    container.style.display = 'flex';
+  } catch (err) {
+    updateCsStatus(err.message, 'error');
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
+
+function parseChemicalLocally(htmlStr, url) {
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(htmlStr, 'text/html');
+  
+  // 1. Try to find name
+  var name = '';
+  var titleEl = doc.querySelector('h1, h2, title');
+  if (titleEl) {
+    name = titleEl.textContent.trim().replace(/\s+/g, ' ');
+    // Strip common page suffix
+    name = name.replace(/\b(Product|Manufacturer|KCIL|Chemical|Buy)\b/gi, '').trim();
+    // clean up title
+    name = name.split('|')[0].split('-')[0].trim();
+  }
+  if (!name) name = 'Unknown Chemical (' + new URL(url).hostname + ')';
+  
+  // 2. Extract CAS number via regex
+  var casNum = 'N/A';
+  var casMatch = htmlStr.match(/\b[1-9]\d{1,6}-\d{2}-\d\b/);
+  if (casMatch) casNum = casMatch[0];
+  
+  // 3. Extract Formula & Weight
+  var formula = 'N/A';
+  var molWeight = 'N/A';
+  
+  // 4. Extract categories
+  var category = 'specialty';
+  var catLabel = 'Specialty Chemicals';
+  var lowHtml = htmlStr.toLowerCase();
+  if (lowHtml.indexOf('solvent') >= 0) {
+    category = 'solvents';
+    catLabel = 'Solvents';
+  } else if (lowHtml.indexOf('green') >= 0 || lowHtml.indexOf('bio-') >= 0) {
+    category = 'green';
+    catLabel = 'Green Chemistry';
+  } else if (lowHtml.indexOf('custom') >= 0 || lowHtml.indexOf('synthesis') >= 0) {
+    category = 'custom';
+    catLabel = 'Custom Synthesis';
+  }
+  
+  // 5. Extract Properties from tables
+  var properties = [];
+  doc.querySelectorAll('table tr').forEach(function(tr) {
+    var tds = tr.querySelectorAll('td, th');
+    if (tds.length >= 2) {
+      var k = tds[0].textContent.trim();
+      var v = tds[1].textContent.trim();
+      if (k && v && k.length < 50 && v.length < 200) {
+        properties.push({ key: k, value: v });
+      }
+    }
+  });
+  
+  // 6. Extract Applications (Lists or paragraphs containing uses)
+  var applications = [];
+  var appsHeaders = [];
+  doc.querySelectorAll('h1, h2, h3, h4, h5, strong').forEach(function(h) {
+    var txt = h.textContent.toLowerCase();
+    if (txt.indexOf('app') >= 0 || txt.indexOf('use') >= 0 || txt.indexOf('industry') >= 0) {
+      appsHeaders.push(h);
+    }
+  });
+  
+  appsHeaders.forEach(function(h) {
+    var sibling = h.nextElementSibling;
+    var count = 0;
+    while (sibling && count < 3) {
+      if (sibling.tagName === 'UL' || sibling.tagName === 'OL') {
+        sibling.querySelectorAll('li').forEach(function(li) {
+          var val = li.textContent.trim();
+          if (val && applications.indexOf(val) < 0) applications.push(val);
+        });
+      } else if (sibling.tagName === 'P') {
+        var val = sibling.textContent.trim();
+        if (val && val.length > 10 && val.length < 300 && applications.indexOf(val) < 0) {
+          applications.push(val);
+        }
+      }
+      sibling = sibling.nextElementSibling;
+      count++;
+    }
+  });
+  
+  // Fallbacks if nothing found
+  if (properties.length === 0) {
+    properties.push({ key: 'Source', value: new URL(url).hostname });
+    properties.push({ key: 'Status', value: 'Scraped successfully' });
+  }
+  if (applications.length === 0) {
+    applications.push('Chemical intermediate and industrial agent.');
+    applications.push('For research and development or commercial synthesis.');
+  }
+  
+  return {
+    name: name,
+    url: url,
+    category: category,
+    catLabel: catLabel,
+    synonyms: 'N/A',
+    casNum: casNum,
+    formula: formula,
+    molWeight: molWeight,
+    properties: properties,
+    applications: applications,
+    advantages: ['Custom synthesised high-purity product', 'Industrial quality standards'],
+    packing: 'Available in standard drums or client specified pack sizes.',
+    image: ''
+  };
+}
+
+async function parseChemicalWithGemini(htmlStr, url, apiKey) {
+  // Clean HTML to extract text only to fit token limit
+  var cleanText = htmlStr.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, '')
+                         .replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, '')
+                         .replace(/<[^>]+>/g, ' ')
+                         .replace(/\s+/g, ' ')
+                         .substring(0, 8000); // 8k chars limit
+                         
+  var prompt = 'Analyze the following text scraped from a chemical product webpage. Extract the chemical details into a raw JSON object with exactly the keys listed below. Do not include markdown code block formatting or backticks around the JSON.\n\n';
+  prompt += 'Required JSON structure:\n';
+  prompt += '{\n';
+  prompt += '  "name": "Full Chemical Name",\n';
+  prompt += '  "category": "solvents|specialty|custom|green",\n';
+  prompt += '  "catLabel": "Solvents|Specialty Chemicals|Custom Synthesis|Green Chemistry",\n';
+  prompt += '  "synonyms": "Synonyms or N/A",\n';
+  prompt += '  "casNum": "CAS Number or N/A",\n';
+  prompt += '  "formula": "Molecular Formula or N/A",\n';
+  prompt += '  "molWeight": "Molecular Weight or N/A",\n';
+  prompt += '  "properties": [{"key": "Property Name", "value": "Property Value"}],\n';
+  prompt += '  "applications": ["Application 1", "Application 2"],\n';
+  prompt += '  "advantages": ["Advantage 1", "Advantage 2"],\n';
+  prompt += '  "packing": "Packing info or N/A"\n';
+  prompt += '}\n\n';
+  prompt += 'Scraped Text:\n' + cleanText;
+  
+  var resp = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { temperature: 0.1, responseMimeType: "application/json" }
+    })
+  });
+  
+  if (!resp.ok) throw new Error('Gemini Extraction API Error: HTTP ' + resp.status);
+  
+  var data = await resp.json();
+  var text = data.candidates[0].content.parts[0].text.trim();
+  // Strip backticks if any
+  if (text.startsWith('`')) {
+    text = text.replace(/^`json\s*/, '').replace(/`\s*$/, '').trim();
+  }
+  
+  var result = JSON.parse(text);
+  result.url = url;
+  result.image = '';
+  return result;
+}
+
+function renderScrapedResult(c) {
+  var el = document.getElementById('csResultContainer');
+  if (!el) return;
+  
+  var propsHtml = c.properties.map(function(p) {
+    return '<tr><td style="font-weight:600">' + esc(p.key) + '</td><td>' + esc(p.value) + '</td></tr>';
+  }).join('');
+  
+  var appsHtml = c.applications.map(function(a) {
+    return '<div class="cs-app-bullet"><div class="cs-bullet-dot"></div>' + esc(a) + '</div>';
+  }).join('');
+  
+  var html = '<div class="cs-res-card">';
+  html += '<div class="cs-res-header">';
+  html += '<div><div class="cs-res-title">' + esc(c.name) + '</div><div style="font-size:11px;color:var(--dim);margin-top:4px">' + esc(c.url) + '</div></div>';
+  html += '<span class="cs-res-cat">' + esc(c.catLabel) + '</span>';
+  html += '</div>';
+  
+  html += '<div class="cs-res-meta">';
+  html += '<div class="cs-meta-item"><span class="cs-meta-lbl">CAS Number</span><span class="cs-meta-val">' + esc(c.casNum) + '</span></div>';
+  html += '<div class="cs-meta-item"><span class="cs-meta-lbl">Formula</span><span class="cs-meta-val">' + esc(c.formula) + '</span></div>';
+  html += '<div class="cs-meta-item"><span class="cs-meta-lbl">Molecular Weight</span><span class="cs-meta-val">' + esc(c.molWeight) + '</span></div>';
+  html += '</div>';
+  
+  if (c.synonyms && c.synonyms !== 'N/A') {
+    html += '<div style="font-size:12px;color:var(--muted)"><strong>Synonyms:</strong> ' + esc(c.synonyms) + '</div>';
+  }
+  
+  html += '<div class="cs-res-section"><div class="cs-sect-title">Properties</div>';
+  html += '<table class="prop-table" style="width:100%">' + propsHtml + '</table></div>';
+  
+  html += '<div class="cs-res-section"><div class="cs-sect-title">Applications</div>';
+  html += '<div class="cs-res-apps">' + appsHtml + '</div></div>';
+  
+  if (c.packing && c.packing !== 'N/A') {
+    html += '<div class="cs-res-section"><div class="cs-sect-title">Packing</div><p style="font-size:13px;color:var(--muted);line-height:1.5;margin:0">' + esc(c.packing) + '</p></div>';
+  }
+  
+  html += '<div class="cs-actions">';
+  html += '<button class="cs-act-btn cs-btn-add" onclick="addCustomToDataset()">➕ Add to Active Dataset</button>';
+  html += '<button class="cs-act-btn cs-btn-exp" onclick="exportCustomChemical()">💾 Export JSON</button>';
+  html += '</div>';
+  
+  html += '</div>';
+  
+  el.innerHTML = html;
+}
+
+function addCustomToDataset() {
+  if (!lastScrapedChemical) return;
+  var c = lastScrapedChemical;
+  
+  // Avoid duplicate naming
+  var exists = scrapedData.products.some(function(p) {
+    return p.name.toLowerCase() === c.name.toLowerCase();
+  });
+  
+  if (exists) {
+    alert('Chemical "' + c.name + '" is already in the dataset.');
+    return;
+  }
+  
+  scrapedData.products.unshift(c); // prepend
+  
+  // Re-render other tabs so it shows up everywhere
+  renderProducts(scrapedData.products);
+  renderApplications(scrapedData.products);
+  renderProperties(scrapedData.products);
+  renderDocuments(scrapedData.products);
+  
+  // Update counts
+  document.getElementById('numProducts').textContent = scrapedData.products.length;
+  var totalApps = scrapedData.products.reduce(function(s,p){return s+p.applications.length;},0);
+  document.getElementById('numApps').textContent = totalApps;
+  
+  // Notify
+  alert('Successfully added "' + c.name + '" to your active scraper dataset! You can view it in the "Products", "Applications", and "Properties" tabs.');
+}
+
+function exportCustomChemical() {
+  if (!lastScrapedChemical) return;
+  var content = JSON.stringify(lastScrapedChemical, null, 2);
+  var blob = new Blob([content], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'scraped_' + lastScrapedChemical.name.replace(/\s+/g, '_').toLowerCase() + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}

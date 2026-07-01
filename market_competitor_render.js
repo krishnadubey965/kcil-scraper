@@ -52,7 +52,7 @@ function loadMarketData() {
   var sz30 = d.marketSize2030 >= 1000 ? '$' + (d.marketSize2030/1000).toFixed(2) + ' Billion' : '$' + d.marketSize2030 + ' Million';
   var yr2 = d.forecastPeriod.split('-')[1] || '2030';
 
-  var verifyUrl = 'https://www.google.com/search?q=' + encodeURIComponent(name + ' market size CAGR ' + d.forecastPeriod + ' ' + d.source);
+  var verifyUrl = d.gvrLink;
 
   var html = '<div class="mkt-hero">';
   html += '<div class="mkt-hero-name">' + esc(name) + '</div>';
@@ -66,7 +66,7 @@ function loadMarketData() {
   html += '<div class="mkt-cagr-bar-wrap"><div class="mkt-cagr-bar-label">CAGR (0% &mdash; 15%)</div>';
   html += '<div class="mkt-cagr-bar"><div class="mkt-cagr-fill ' + cagrClass + '" style="width:' + Math.min(100,(d.cagr/15*100)).toFixed(0) + '%"></div></div></div>';
 
-  html += '<a href="' + esc(verifyUrl) + '" target="_blank" class="mkt-verify-onebtn">Verify this data &rarr; Click here to search Google for "' + esc(name) + ' market size CAGR ' + esc(d.forecastPeriod) + '"</a>';
+  html += '<a href="' + esc(verifyUrl) + '" target="_blank" class="mkt-verify-onebtn">🔗 View Certified Source Report on Grand View Research (Direct Link)</a>';
   html += '</div>';
 
   html += '<div class="mkt-section"><div class="mkt-section-title">Market Outlook</div><div class="mkt-outlook">' + esc(d.outlook) + '</div></div>';
