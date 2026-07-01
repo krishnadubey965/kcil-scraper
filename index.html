@@ -224,9 +224,12 @@
     <div class="tab-content" id="tab-customscrape">
       <div class="cs-panel">
         <div class="cs-header">
-          <div class="cs-title">🔗 Custom URL Scraper</div>
-          <div class="cs-subtitle">Paste any chemical website URL (e.g. from KCIL, a competitor, or database) to fetch, scrape, and extract its properties and applications automatically.</div>
+          <div class="cs-title">🔗 Custom URL Scraper & Searcher</div>
+          <div class="cs-subtitle">Paste any chemical product page URL to scrape, or search within the target website to auto-scrape the product.</div>
         </div>
+        
+        <!-- Scraper Input -->
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--dim);margin-bottom:4px">Option 1: Paste Exact Product Page URL</div>
         <div class="cs-input-bar">
           <div class="cs-input-wrap">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="cs-link-icon"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
@@ -234,7 +237,30 @@
           </div>
           <button class="cs-btn" id="csBtnScrape" onclick="runCustomScrape()">Scrape & Extract</button>
         </div>
-        <div class="cs-quick-links">
+        
+        <!-- CORS Proxy Checkbox -->
+        <div style="display:flex;align-items:center;gap:8px;margin-top:-6px;margin-bottom:8px">
+          <input type="checkbox" id="csUseProxy" checked style="cursor:pointer"/>
+          <label for="csUseProxy" style="font-size:11px;color:var(--muted);cursor:pointer;user-select:none">Use CORS Proxy (uncheck if proxy times out and you have a CORS extension enabled)</label>
+        </div>
+
+        <!-- Search Bar Section -->
+        <div style="margin-top:10px;padding-top:16px;border-top:1px solid var(--glass-b)">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--dim);margin-bottom:8px">Option 2: Search Within the Site</div>
+          <div class="cs-search-row" style="display:flex;gap:12px;margin-bottom:8px">
+            <div style="flex:1;display:flex;gap:8px">
+              <input type="text" id="csSearchQuery" class="cs-input" placeholder="Enter chemical name (e.g. Methanol, Acetic Acid)..." style="padding-left:14px"/>
+            </div>
+            <button class="cs-btn" id="csBtnSearchScrape" onclick="runSearchAndScrape()" style="background:linear-gradient(135deg, #10b981, #059669)">🔍 Search & Scrape</button>
+            <button class="cs-btn" onclick="openGoogleSiteSearch()" style="background:rgba(255,255,255,.05);border:1px solid var(--glass-b);color:var(--text)">🌐 Google Site Search</button>
+          </div>
+          <p style="font-size:10px;color:var(--dim);margin:0;line-height:1.5">
+            <strong>Auto-Search:</strong> Tries to find the product page by scanning the website's search page. <br/>
+            <strong>Google Site Search:</strong> Opens Google filtered to the site. Find the link, copy it, and paste it into Option 1 above.
+          </p>
+        </div>
+
+        <div class="cs-quick-links" style="margin-top:10px">
           <span class="cs-quick-label">Try Examples:</span>
           <span class="cs-quick-link" onclick="fillCsUrl('https://kcilglobal.com/products/acetonitrile/')">Acetonitrile (KCIL)</span>
           <span class="cs-quick-link" onclick="fillCsUrl('https://kcilglobal.com/products/n-methylpyrrolidone-nmp/')">NMP (KCIL)</span>
@@ -247,7 +273,7 @@
       </div>
     </div>
 
-    <!-- Products Tab -->
+<!-- Products Tab -->
     <div class="tab-content" id="tab-products">
       <div class="empty-state" id="empty-products" style="display:none"><div class="empty-icon">&#129514;</div><h3>Loading products...</h3></div>
       <div id="grid-products" class="product-detail-grid"></div>

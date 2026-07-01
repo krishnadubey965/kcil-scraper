@@ -1642,9 +1642,42 @@ function filterResults(){
   if(sel)document.querySelectorAll(sel).forEach(function(e){e.style.display=e.textContent.toLowerCase().indexOf(q)>=0?'':'none';});
 }
 async function fetchPage(url){
-  var r=await fetch(PROXY+encodeURIComponent(url),{signal:AbortSignal.timeout(15000)});
-  if(!r.ok)throw new Error('HTTP '+r.status);
-  return(await r.json()).contents;
+  var useProxy = true;
+  var proxyCheckbox = document.getElementById('csUseProxy');
+  if (proxyCheckbox) {
+    useProxy = proxyCheckbox.checked;
+  }
+  
+  if (!useProxy) {
+    // Direct fetch (requires CORS extension on browser)
+    var r = await fetch(url, {signal: AbortSignal.timeout(15000)});
+    if (!r.ok) throw new Error('Direct Fetch failed with status ' + r.status + '. Ensure your CORS extension is active.');
+    return await r.text();
+  }
+  
+  // Try allorigins (JSON wrapped)
+  try {
+    var r = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url), {signal: AbortSignal.timeout(15000)});
+    if (r.ok) {
+      var data = await r.json();
+      if (data && data.contents) return data.contents;
+    }
+  } catch(e) {
+    console.warn('allorigins failed, trying codetabs...', e);
+  }
+  
+  // Try codetabs (direct text)
+  try {
+    var r = await fetch('https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(url), {signal: AbortSignal.timeout(10000)});
+    if (r.ok) return await r.text();
+  } catch(e) {
+    console.warn('codetabs failed, trying direct...', e);
+  }
+  
+  // Try direct fetch as last resort
+  var r = await fetch(url, {signal: AbortSignal.timeout(10000)});
+  if (!r.ok) throw new Error('All CORS proxies failed and direct fetch was blocked by CORS. Please install a CORS-bypass extension in Chrome to scan this site.');
+  return await r.text();
 }
 function parse(html){return new DOMParser().parseFromString(html,'text/html');}
 
@@ -2498,4 +2531,146 @@ function exportCustomChemical() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+
+// ============================================================
+// SITE SEARCH AND AUTO-SCRAPE HELPER FUNCTIONS
+// ============================================================
+function openGoogleSiteSearch() {
+  var urlInput = document.getElementById('csUrlInput');
+  var queryInput = document.getElementById('csSearchQuery');
+  var url = urlInput ? urlInput.value.trim() : '';
+  var query = queryInput ? queryInput.value.trim() : '';
+  
+  if (!url) {
+    alert('Please enter a target website URL in Option 1 first to define the site domain.');
+    return;
+  }
+  if (!query) {
+    alert('Please enter a chemical name to search.');
+    return;
+  }
+  
+  try {
+    var domain = new URL(url).hostname;
+    var searchUrl = 'https://www.google.com/search?q=site:' + encodeURIComponent(domain) + '+' + encodeURIComponent(query);
+    window.open(searchUrl, '_blank');
+  } catch(e) {
+    alert('Invalid target website URL: ' + e.message);
+  }
+}
+
+async function runSearchAndScrape() {
+  var urlInput = document.getElementById('csUrlInput');
+  var queryInput = document.getElementById('csSearchQuery');
+  var url = urlInput ? urlInput.value.trim() : '';
+  var query = queryInput ? queryInput.value.trim() : '';
+  var btn = document.getElementById('csBtnSearchScrape');
+  
+  if (!url) {
+    updateCsStatus('Please enter a target website URL in Option 1 first.', 'error');
+    return;
+  }
+  if (!query) {
+    updateCsStatus('Please enter a chemical name to search.', 'error');
+    return;
+  }
+  
+  if (btn) btn.disabled = true;
+  updateCsStatus('Searching website for "' + query + '"...', 'loading');
+  
+  try {
+    var baseDomain = new URL(url).origin;
+    // Guess search URL based on common CMS/e-commerce patterns
+    var searchPaths = [
+      '/?s=' + encodeURIComponent(query), // WordPress
+      '/search?q=' + encodeURIComponent(query), // Shopify/standard
+      '/catalogsearch/result/?q=' + encodeURIComponent(query), // Magento
+      '/search/' + encodeURIComponent(query)
+    ];
+    
+    var html = '';
+    var usedSearchUrl = '';
+    for (var i = 0; i < searchPaths.length; i++) {
+      var sUrl = baseDomain + searchPaths[i];
+      try {
+        updateCsStatus('Trying search path: ' + searchPaths[i] + '...', 'loading');
+        html = await fetchPage(sUrl);
+        if (html && html.length > 5000) { // check if valid page returned
+          usedSearchUrl = sUrl;
+          break;
+        }
+      } catch(e) {
+        console.warn('Search path failed:', sUrl, e);
+      }
+    }
+    
+    if (!html) {
+      throw new Error('Could not perform search on ' + baseDomain + '. Use Google Site Search instead.');
+    }
+    
+    // Parse search results page
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(html, 'text/html');
+    var links = doc.querySelectorAll('a[href]');
+    
+    var matchedUrl = '';
+    var queryWords = query.toLowerCase().split(/\s+/);
+    
+    for (var i = 0; i < links.length; i++) {
+      var href = links[i].getAttribute('href') || '';
+      var text = links[i].textContent.toLowerCase();
+      var hrefLow = href.toLowerCase();
+      
+      // Filter out utility URLs
+      if (hrefLow.indexOf('cart') >= 0 || hrefLow.indexOf('account') >= 0 || hrefLow.indexOf('search') >= 0 || hrefLow.indexOf('contact') >= 0 || hrefLow.indexOf('about') >= 0) {
+        continue;
+      }
+      
+      // Match query words in link text or href
+      var matches = queryWords.every(function(w) {
+        return text.indexOf(w) >= 0 || hrefLow.indexOf(w) >= 0;
+      });
+      
+      if (matches && href) {
+        // Resolve relative URL
+        if (href.startsWith('http')) {
+          matchedUrl = href;
+        } else {
+          matchedUrl = baseDomain + (href.startsWith('/') ? '' : '/') + href;
+        }
+        break;
+      }
+    }
+    
+    if (!matchedUrl) {
+      throw new Error('No chemical product link matching "' + query + '" found on the search page. Click "Google Site Search" to find it.');
+    }
+    
+    updateCsStatus('Found product URL: ' + matchedUrl + '. Scraping details...', 'loading');
+    urlInput.value = matchedUrl; // autofill
+    
+    // Scrape the product page URL
+    var productHtml = await fetchPage(matchedUrl);
+    var apiKey = (document.getElementById('geminiKey').value || '').trim();
+    var result = null;
+    
+    if (apiKey) {
+      updateCsStatus('Extracting product details via Gemini AI...', 'loading');
+      result = await parseChemicalWithGemini(productHtml, matchedUrl, apiKey);
+    } else {
+      updateCsStatus('Extracting product details locally...', 'loading');
+      result = parseChemicalLocally(productHtml, matchedUrl);
+    }
+    
+    lastScrapedChemical = result;
+    renderScrapedResult(result);
+    updateCsStatus('Successfully found and scraped: ' + result.name, 'success');
+    document.getElementById('csResultContainer').style.display = 'flex';
+  } catch(err) {
+    updateCsStatus(err.message, 'error');
+  } finally {
+    if (btn) btn.disabled = false;
+  }
 }
